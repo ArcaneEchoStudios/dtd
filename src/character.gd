@@ -19,8 +19,8 @@ func _init(name: String, color: Color, zone: String, slot: int, is_pc: bool) -> 
     self.slot = slot
     self.is_pc = is_pc
     self.actions = [
-        Action.new("Move", 1, "Move from any zone to the middle or from the middle to any zone"),
-        Action.new("Attack", 2, "Make a basic attack action")
+        Action.new("Move", 1, "Moves one zone"),
+        Action.new("Attack", 2, "Attack successful!")
     ]
 
 # Example method

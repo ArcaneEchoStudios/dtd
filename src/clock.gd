@@ -23,6 +23,13 @@ func add_step(pos: int, character: Character, action: Action):
     # TODO: Tuples aren't really supported in gds so this is kinda dumb
     steps[pos].append([character, action])
 
+func plan_step(ch: Character, action: Action) -> bool:
+    var pos = next_available_step(ch) + action.time
+    if pos >= points:
+        return false
+    add_step(pos, ch, action)
+    return true
+
 func _ready():
     # Add an Area2D for click detection
     var area = Area2D.new()
@@ -37,15 +44,29 @@ func _ready():
     area.position = center
 
     # Connect the input_event signal to detect clicks
-    area.connect("input_event", Callable(self, "_on_clock_ticked"))
+    area.connect("input_event", Callable(self, "_on_clock_clicked"))
 
-func _on_clock_ticked(viewport, event, shape_idx):
+func _on_clock_clicked(viewport, event, shape_idx):
     if event is InputEventMouseButton and event.pressed:
-        print("Clock clicked!")
+        emit_signal("clock_event")
+
+func next_available_step(ch: Character) -> int:
+    var highest = 0
+
+    for i in range(steps.size()):
+        for step in steps[i]:
+            if step[0] == ch:
+                highest = i 
+    return highest
+
 
 func _draw():
     draw_circle(self.center, self.radius, Color.DIM_GRAY)
     
+    for child in get_children():
+        if child is Label:  # Only remove Label nodes
+            child.queue_free()
+
     for i in range(points):
         var n = Label.new()
         n.text = str(i)

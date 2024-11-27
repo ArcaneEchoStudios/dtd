@@ -11,8 +11,9 @@ func _ready():
     add_child(log_label)
 
 func add_log_entry(entry: String, color: Color = Color.WHITE):
-    log_label.push_color(color)
-    log_label.append_text(entry + "\n")
-    log_label.pop()
-    log_label.scroll_to_line(log_label.get_line_count())
+    if log_label:
+        log_label.push_color(color)
+        log_label.append_text(entry + "\n")
+        log_label.pop()
+        log_label.scroll_to_line(log_label.get_line_count())
     
