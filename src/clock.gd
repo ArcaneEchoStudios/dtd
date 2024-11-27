@@ -8,6 +8,8 @@ var points: int
 var steps: Array
 var center: Vector2
 
+signal clock_event  # Define the signal
+
 func _init(x, y, size: float, clock_points: int) -> void:
     self.center = Vector2(x, y)
     self.radius = size
@@ -35,9 +37,9 @@ func _ready():
     area.position = center
 
     # Connect the input_event signal to detect clicks
-    area.connect("input_event", Callable(self, "_on_clock_clicked"))
+    area.connect("input_event", Callable(self, "_on_clock_ticked"))
 
-func _on_clock_clicked(viewport, event, shape_idx):
+func _on_clock_ticked(viewport, event, shape_idx):
     if event is InputEventMouseButton and event.pressed:
         print("Clock clicked!")
 

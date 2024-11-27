@@ -7,8 +7,6 @@
 ;   param=value ; assign values to parameters
 
 config_version=5
-[autoload]
-CombatLog="res://src/combat_log.gd"
 
 [application]
 
