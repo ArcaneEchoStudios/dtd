@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://bej3pybddu7ox"]
+
+[ext_resource type="Script" path="res://src/battlefield.gd" id="1_6morn"]
+[ext_resource type="Texture2D" uid="uid://b157ji33xv4l3" path="res://assets/zones.png" id="2_k4ivh"]
+
+[node name="Combat" type="Node2D"]
+
+[node name="Battlefield" type="Node2D" parent="."]
+script = ExtResource("1_6morn")
+
+[node name="Background" type="Sprite2D" parent="Battlefield"]
+position = Vector2(513, 512)
+
+[node name="Zones" type="Node" parent="Battlefield"]
+
+[node name="left" type="Node2D" parent="Battlefield/Zones"]
+position = Vector2(136, 59)
+
+[node name="middle" type="Node2D" parent="Battlefield/Zones"]
+position = Vector2(365, 55)
+
+[node name="right" type="Node2D" parent="Battlefield/Zones"]
+position = Vector2(690, 55)
+
+[node name="Zone UI" type="Sprite2D" parent="Battlefield"]
+position = Vector2(512, 123)
+texture = ExtResource("2_k4ivh")
+
+[node name="Tokens" type="Node" parent="Battlefield"]

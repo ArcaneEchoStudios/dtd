@@ -1,0 +1,27 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+[autoload]
+CombatLog="res://src/combat_log.gd"
+
+[application]
+
+config/name="Delve the Dungeon"
+run/main_scene="res://combat.tscn"
+config/features=PackedStringArray("4.3", "Forward Plus")
+config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=1024
+window/size/viewport_height=1024
+
+[rendering]
+
+2d/snap/snap_2d_transforms_to_pixel=true
