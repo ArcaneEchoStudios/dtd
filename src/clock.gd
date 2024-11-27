@@ -7,6 +7,7 @@ var radius: float
 var points: int
 var steps: Array
 var center: Vector2
+var turns: int = 0
 
 signal clock_event  # Define the signal
 
@@ -48,6 +49,7 @@ func _ready():
 
 func _on_clock_clicked(viewport, event, shape_idx):
     if event is InputEventMouseButton and event.pressed:
+        turns += 1
         emit_signal("clock_event")
 
 func next_available_step(ch: Character) -> int:
@@ -62,7 +64,10 @@ func next_available_step(ch: Character) -> int:
 
 func _draw():
     draw_circle(self.center, self.radius, Color.DIM_GRAY)
+    draw_line(center, get_pos(0), Color.BLACK, 20)
+
     
+
     for child in get_children():
         if child is Label:  # Only remove Label nodes
             child.queue_free()
@@ -84,8 +89,13 @@ func _draw():
             add_child(step)
 
 func get_pos(pos, offset: int = 0) -> Vector2:
-    var angle = 2.0 * PI * pos / self.points - PI / 2
+    var angle = 2.0 * PI * pos / self.points + calculate_start_angle()
     return Vector2(
         self.center.x - 10 + (offset + self.radius) * cos(angle),
         self.center.y - 10 + (offset + self.radius) * sin(angle)
     )
+
+func calculate_start_angle() -> float:
+    var clock_number :int = self.turns % self.points
+
+    return 2.0 * PI * clock_number / self.points

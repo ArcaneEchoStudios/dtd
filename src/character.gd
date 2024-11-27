@@ -20,7 +20,7 @@ func _init(name: String, color: Color, zone: String, slot: int, is_pc: bool) -> 
     self.is_pc = is_pc
     self.actions = [
         Action.new("Move", 1, "Moves one zone"),
-        Action.new("Attack", 2, "Attack successful!")
+        Action.new("Attack", 2, "Make attack roll")
     ]
 
 # Example method
