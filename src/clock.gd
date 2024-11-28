@@ -19,11 +19,12 @@ func _init(x, y, size: float, clock_points: int) -> void:
     for i in range(self.points):
         steps.append([])
 
-
+# This adds a single step, or action to the end of the slot where it belongs
 func add_step(pos: int, character: Character, action: Action):
-    # TODO: Tuples aren't really supported in gds so this is kinda dumb
-    steps[pos].append([character, action])
+    steps[pos].append({ "character": character, "action": action }) 
 
+# Plan step will check to see if the step is valid and where it should go 
+# based on the next step the character already has planned
 func plan_step(ch: Character, action: Action) -> bool:
     var pos = next_available_step(ch) + action.time
     if pos >= points:
@@ -32,7 +33,9 @@ func plan_step(ch: Character, action: Action) -> bool:
     return true
 
 func _ready():
-    # Add an Area2D for click detection
+    # We want the clock to be clickable. The way we do this is by creating 
+    # an Area2D for click detection. When it's clicked we call the callable
+    # attacked to the the area
     var area = Area2D.new()
     var collision_shape = CollisionShape2D.new()
     var circle_shape = CircleShape2D.new()
@@ -40,24 +43,23 @@ func _ready():
     collision_shape.shape = circle_shape
     area.add_child(collision_shape)
     add_child(area)
-
-    # Center the Area2D on the clock
     area.position = center
-
-    # Connect the input_event signal to detect clicks
     area.connect("input_event", Callable(self, "_on_clock_clicked"))
 
+# Anytime something happens with the circle, we capture it. If it's a click 
+# event, we send it up the stack. Note: This could send as many events as 
+# they can click
 func _on_clock_clicked(viewport, event, shape_idx):
     if event is InputEventMouseButton and event.pressed:
-        turns += 1
         emit_signal("clock_event")
 
+# Loop through each step and find whichever the last action they have planned is
 func next_available_step(ch: Character) -> int:
     var highest = 0
 
     for i in range(steps.size()):
         for step in steps[i]:
-            if step[0] == ch:
+            if step['character'] == ch:
                 highest = i 
     return highest
 
@@ -65,37 +67,43 @@ func next_available_step(ch: Character) -> int:
 func _draw():
     draw_circle(self.center, self.radius, Color.DIM_GRAY)
     draw_line(center, get_pos(0), Color.BLACK, 20)
-
     
-
+    # Remove any previous labels and we'll redraw everything. Wasteful, I know.
     for child in get_children():
         if child is Label:  # Only remove Label nodes
             child.queue_free()
 
+    # For each slot
     for i in range(points):
+
+        # Create an 'O' label. This is just a marker for visual effects
         var n = Label.new()
-        n.text = str(i)
+        n.text = "O"
         n.position = get_pos(i)
         add_child(n)
 
+        # Now for every planned action in this step, we're going to add it 
         for s in range(steps[i].size()):
-            var character = steps[i][s][0]
-            var action = steps[i][s][1]
+            var character = steps[i][s]['character']
+            var action = steps[i][s]['action']
 
+            # If the action is an enemy action, we hide the action
             var step = Label.new()
-            step.text = action.name
+            if character.is_pc:
+                step.text = action.name 
+            else:
+                step.text = "????"
             step.add_theme_color_override("font_color", character.color)
             step.position = get_pos(i, (s + 1)*50)
             add_child(step)
 
+# Beware, here lies math
 func get_pos(pos, offset: int = 0) -> Vector2:
-    var angle = 2.0 * PI * pos / self.points + calculate_start_angle()
+    
+    var clock_number :int = self.turns % self.points
+
+    var angle = 2.0 * PI * pos / self.points + (2.0 * PI * clock_number / self.points)
     return Vector2(
         self.center.x - 10 + (offset + self.radius) * cos(angle),
         self.center.y - 10 + (offset + self.radius) * sin(angle)
     )
-
-func calculate_start_angle() -> float:
-    var clock_number :int = self.turns % self.points
-
-    return 2.0 * PI * clock_number / self.points

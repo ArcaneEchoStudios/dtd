@@ -10,19 +10,5 @@ script = ExtResource("1_6morn")
 [node name="Background" type="Sprite2D" parent="Battlefield"]
 position = Vector2(513, 512)
 
-[node name="Zones" type="Node" parent="Battlefield"]
-
-[node name="left" type="Node2D" parent="Battlefield/Zones"]
-position = Vector2(136, 59)
-
-[node name="middle" type="Node2D" parent="Battlefield/Zones"]
-position = Vector2(365, 55)
-
-[node name="right" type="Node2D" parent="Battlefield/Zones"]
-position = Vector2(690, 55)
-
-[node name="Zone UI" type="Sprite2D" parent="Battlefield"]
-position = Vector2(512, 123)
-
 [node name="Planner" type="Node" parent="Battlefield"]
 position = Vector2(600, 300)
