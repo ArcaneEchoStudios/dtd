@@ -3,7 +3,6 @@ const Character = preload("res://src/character.gd")
 const Action = preload("res://src/action.gd")
 const Clock = preload("res://src/clock.gd")
 const Planner = preload("res://src/planner.gd")
-var Zones = preload("res://src/zones.gd")
 # TODO: Why is this different? Should it be?
 var CombatLog = preload("res://src/combat_log.gd").new()
 
