@@ -2,7 +2,7 @@ extends Node2D
 class_name Clock
 const Character = preload("res://src/character.gd")
 const Action = preload("res://src/action.gd")
-
+# Happy little change
 var radius: float
 var points: int
 var steps: Array
@@ -22,9 +22,9 @@ func _init(x, y, size: float, clock_points: int) -> void:
 
 # This adds a single step, or action to the end of the slot where it belongs
 func add_step(pos: int, character: Character, action: Action):
-    steps[pos].append({ "character": character, "action": action }) 
+    steps[pos].append({ "character": character, "action": action })
 
-# Plan step will check to see if the step is valid and where it should go 
+# Plan step will check to see if the step is valid and where it should go
 # based on the next step the character already has planned
 func plan_step(ch: Character, action: Action) -> bool:
     var pos = next_available_step(ch) + action.time
@@ -34,7 +34,7 @@ func plan_step(ch: Character, action: Action) -> bool:
     return true
 
 func _ready():
-    # We want the clock to be clickable. The way we do this is by creating 
+    # We want the clock to be clickable. The way we do this is by creating
     # an Area2D for click detection. When it's clicked we call the callable
     # attacked to the the area
     var area = Area2D.new()
@@ -47,8 +47,8 @@ func _ready():
     area.position = center
     area.connect("input_event", Callable(self, "_on_clock_clicked"))
 
-# Anytime something happens with the circle, we capture it. If it's a click 
-# event, we send it up the stack. Note: This could send as many events as 
+# Anytime something happens with the circle, we capture it. If it's a click
+# event, we send it up the stack. Note: This could send as many events as
 # they can click
 func _on_clock_clicked(viewport, event, shape_idx):
     if event is InputEventMouseButton and event.pressed:
@@ -61,14 +61,14 @@ func next_available_step(ch: Character) -> int:
     for i in range(steps.size()):
         for step in steps[i]:
             if step['character'] == ch:
-                highest = i 
+                highest = i
     return highest
 
 
 func _draw():
     draw_circle(self.center, self.radius, Color.DIM_GRAY)
     draw_line(center, get_pos(0), Color.BLACK, 20)
-    
+
     # Remove any previous labels and we'll redraw everything. Wasteful, I know.
     for child in get_children():
         if child is Label:  # Only remove Label nodes
@@ -83,7 +83,7 @@ func _draw():
         n.position = get_pos(i)
         add_child(n)
 
-        # Now for every planned action in this step, we're going to add it 
+        # Now for every planned action in this step, we're going to add it
         for s in range(steps[i].size()):
             var character = steps[i][s]['character']
             var action = steps[i][s]['action']
@@ -91,7 +91,7 @@ func _draw():
             # If the action is an enemy action, we hide the action
             var step = Label.new()
             if character.is_pc:
-                step.text = action.name 
+                step.text = action.name
             else:
                 step.text = "????"
             step.add_theme_color_override("font_color", character.color)
@@ -100,7 +100,7 @@ func _draw():
 
 # Beware, here lies math
 func get_pos(pos, offset: int = 0) -> Vector2:
-    
+
     var clock_number :int = self.turns % self.points
 
     var angle = 2.0 * PI * pos / self.points + (2.0 * PI * clock_number / self.points)
