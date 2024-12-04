@@ -1,14 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://bej3pybddu7ox"]
+[gd_scene load_steps=1 format=3 uid="uid://bej3pybddu7ox"]
 
+; This defines a resource that can be used by the ID later. (randomly gen'd?)
 [ext_resource type="Script" path="res://src/battlefield.gd" id="1_6morn"]
 
+; In a .tscn file, the first node listed under [node] is always the root node.
+; It doesn't do anything, but gives us a place to put other things
 [node name="Combat" type="Node2D"]
 
+; The battlefield node is a node that is hung off of the root node (the period
+; means the current root node). That loads a script and the rest happens there
 [node name="Battlefield" type="Node2D" parent="."]
 script = ExtResource("1_6morn")
-
-[node name="Background" type="Sprite2D" parent="Battlefield"]
-position = Vector2(513, 512)
-
-[node name="Planner" type="Node" parent="Battlefield"]
-position = Vector2(600, 300)

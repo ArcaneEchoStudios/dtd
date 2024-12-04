@@ -9,6 +9,7 @@ var steps: Array
 var center: Vector2
 var turns: int = 0
 
+
 signal clock_event  # Define the signal
 
 func _init(x, y, size: float, clock_points: int) -> void:

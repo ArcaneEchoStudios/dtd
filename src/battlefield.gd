@@ -75,7 +75,7 @@ func _ready() -> void:
         var on_action = Callable(self, "plan_action")
         var p = Planner.new(ch, on_action)
         p.position = Vector2(400 + (200 * i), 700)
-        $Planner.add_child(p)
+        add_child(p)
 
 # Given the name of the action, load the action and give it to the clock to plan.
 # If we actually added a step, make sure to redraw the clock. 
