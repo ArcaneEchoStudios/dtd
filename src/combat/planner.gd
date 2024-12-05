@@ -38,7 +38,6 @@ func _draw() -> void:
 
         var button = Button.new()
         button.text = "Plan"
-        button.add_theme_color_override("font_color", Color.BLACK)
         button.add_theme_font_size_override("font_size", 12)
         button.position = Vector2(0, i * 70 + 5)
         button.connect("pressed", self.plan.bind(ch, action.name))

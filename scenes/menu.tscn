@@ -1,0 +1,17 @@
+[gd_scene load_steps=1 format=3 uid="uid://c816c704aed4"]
+
+; This defines a resource that can be used by the ID later. (randomly gen'd?)
+[ext_resource type="Script" path="res://src/ui/menu.gd" id="c04d5e79836b"]
+
+[node name="Menu" type="Node2D"]
+script = ExtResource("c04d5e79836b")
+    
+[node name="Combat" type="Button" parent="."]
+text = "Start Combat"
+min_size = Vector2(100, 50)
+position = Vector2(50, 50)
+
+[node name="Exit" type="Button" parent="."]
+text = "Exit"
+min_size = Vector2(100, 50)
+position = Vector2(50, 800)

@@ -12,6 +12,8 @@ var enemies = []
 # See clock.gd
 var clock: Clock
 
+signal scene_change # Define the signal
+
 # The core loop of the combat is based on the clock ticking. When it 
 # ticks, if we're not already ticking, start ticking. During a tick 
 # is all the interesting game design space to play with. 
@@ -37,7 +39,7 @@ func _ready() -> void:
     clock = Clock.new(512, 412, 100, 7)
     add_child(clock)
     # Also, we need to pay attention to the clock_event specifically
-    clock.connect("clock_event", Callable(self, "_on_clock_ticked"))
+    clock.clock_event.connect(Callable(self, "_on_clock_ticked"))
     
     # Load the characters
     # TODO: Load from a source. How does godot want to create a scene?
@@ -69,6 +71,13 @@ func _ready() -> void:
     plan_action(zombie, "Bite")
     plan_action(necro, "Raise")
 
+    var button = Button.new()
+    button.text = "Main Menu"
+    button.add_theme_color_override("font_color", Color.BLACK)
+    button.add_theme_font_size_override("font_size", 12)
+    button.position = Vector2(15, 15)
+    button.connect("pressed", Callable(self, "_on_main_menu"))
+    add_child(button)
     
     for i in range(pcs.size()):
         var ch = pcs[i]
@@ -76,6 +85,9 @@ func _ready() -> void:
         var p = Planner.new(ch, on_action)
         p.position = Vector2(400 + (200 * i), 700)
         add_child(p)
+
+func _on_main_menu():
+    scene_change.emit('menu')
 
 # Given the name of the action, load the action and give it to the clock to plan.
 # If we actually added a step, make sure to redraw the clock. 

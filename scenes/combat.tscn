@@ -6,8 +6,4 @@
 ; In a .tscn file, the first node listed under [node] is always the root node.
 ; It doesn't do anything, but gives us a place to put other things
 [node name="Combat" type="Node2D"]
-
-; The battlefield node is a node that is hung off of the root node (the period
-; means the current root node). That loads a script and the rest happens there
-[node name="Battlefield" type="Node2D" parent="."]
 script = ExtResource("1_6morn")

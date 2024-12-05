@@ -34,25 +34,18 @@ func plan_step(ch: Character, action: Action) -> bool:
     return true
 
 func _ready():
-    # We want the clock to be clickable. The way we do this is by creating
-    # an Area2D for click detection. When it's clicked we call the callable
-    # attacked to the the area
-    var area = Area2D.new()
-    var collision_shape = CollisionShape2D.new()
-    var circle_shape = CircleShape2D.new()
-    circle_shape.radius = radius
-    collision_shape.shape = circle_shape
-    area.add_child(collision_shape)
-    add_child(area)
-    area.position = center
-    area.connect("input_event", Callable(self, "_on_clock_clicked"))
+    var button = Button.new()
+    button.text = "Tick"
+    button.add_theme_font_size_override("font_size", 12)
+    button.position = self.center
+    button.connect("pressed", Callable(self, "_on_clock_clicked"))
+    add_child(button)
 
 # Anytime something happens with the circle, we capture it. If it's a click
 # event, we send it up the stack. Note: This could send as many events as
 # they can click
-func _on_clock_clicked(viewport, event, shape_idx):
-    if event is InputEventMouseButton and event.pressed:
-        emit_signal("clock_event")
+func _on_clock_clicked():
+    clock_event.emit()
 
 # Loop through each step and find whichever the last action they have planned is
 func next_available_step(ch: Character) -> int:
