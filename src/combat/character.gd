@@ -1,7 +1,7 @@
 extends Node2D
 class_name Character
 
-const Action = preload("res://src/action.gd")
+const Action = preload("res://src/combat/action.gd")
 
 # Properties
 var ch_name: String

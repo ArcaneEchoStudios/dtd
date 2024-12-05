@@ -1,8 +1,8 @@
 extends Node2D
 class_name Planner
 
-const Action = preload("res://src/action.gd")
-const Character = preload("res://src/character.gd")
+const Action = preload("res://src/combat/action.gd")
+const Character = preload("res://src/combat/character.gd")
 
 var ch: Character
 var plan: Callable
