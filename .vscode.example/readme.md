@@ -1,0 +1,1 @@
+You can move these files into your .vscode/ directory and it'll help launching the application from vscode directly. It's not checked in normally, as I don't want to have editor setting conflicts
