@@ -1,7 +1,7 @@
 extends Node2D
 class_name Clock
-const Character = preload("res://src/combat/character.gd")
-const Action = preload("res://src/combat/action.gd")
+const Character = preload("res://scenes/clock-combat/character.gd")
+const Action = preload("res://scenes/clock-combat/action.gd")
 # Happy little change
 var radius: float
 var points: int

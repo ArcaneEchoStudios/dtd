@@ -8,7 +8,7 @@ func _ready() -> void:
     $Exit.connect("pressed", Callable(self, "_on_exit"))
 
 func _on_start_combat():
-    scene_change.emit('combat')
+    scene_change.emit('clock-combat')
 
 func _on_exit():
     get_tree().quit()

@@ -1,7 +1,7 @@
 [gd_scene load_steps=1 format=3 uid="uid://bej3pybddu7ox"]
 
 ; This defines a resource that can be used by the ID later. (randomly gen'd?)
-[ext_resource type="Script" path="res://src/combat/battlefield.gd" id="1_6morn"]
+[ext_resource type="Script" path="res://scenes/clock-combat/battlefield.gd" id="1_6morn"]
 
 ; In a .tscn file, the first node listed under [node] is always the root node.
 ; It doesn't do anything, but gives us a place to put other things

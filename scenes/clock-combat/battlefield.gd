@@ -1,10 +1,10 @@
 extends Node2D
-const Character = preload("res://src/combat/character.gd")
-const Action = preload("res://src/combat/action.gd")
-const Clock = preload("res://src/combat/clock.gd")
-const Planner = preload("res://src/combat/planner.gd")
+const Character = preload("res://scenes/clock-combat/character.gd")
+const Action = preload("res://scenes/clock-combat/action.gd")
+const Clock = preload("res://scenes/clock-combat/clock.gd")
+const Planner = preload("res://scenes/clock-combat/planner.gd")
 # TODO: Why is this different? Should it be?
-var CombatLog = preload("res://src/combat/combat_log.gd").new()
+var CombatLog = preload("res://scenes/clock-combat/combat_log.gd").new()
 
 # A list of characters we count as enemies. None so far. 
 var enemies = []
