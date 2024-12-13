@@ -10,42 +10,42 @@ const DIRECTIONS: Array = [
 	Vector2i(-1, 0)  # West
 ]
 
+const TILE_TRANSFORMS: Dictionary = {
+    Vector2i(0, -1): 0, # No rotation, default orientation
+    Vector2i(1, 0): TileSetAtlasSource.TRANSFORM_TRANSPOSE | TileSetAtlasSource.TRANSFORM_FLIP_H, # 90 degrees clockwise
+    Vector2i(0, 1): TileSetAtlasSource.TRANSFORM_FLIP_H | TileSetAtlasSource.TRANSFORM_FLIP_V,    # 180 degrees clockwise
+    Vector2i(-1, 0): TileSetAtlasSource.TRANSFORM_FLIP_V | TileSetAtlasSource.TRANSFORM_TRANSPOSE # 270 degrees clockwise
+}
+
 # Lookup table: maps hashed PackedByteArray (NESW) to (atlas_id, # of clockwise rotations)
 var TILE_LOOKUP = {
 	hash(PackedByteArray([0, 0, 0, 0])): { "id": Vector2i(0, 0), "rotation": Vector2i(0, -1) },  # Isolated wall (Island)
 	hash(PackedByteArray([0, 1, 0, 1])): { "id": Vector2i(1, 0), "rotation": Vector2i(0, -1) },  # Horizontal wall (East-West)
-	hash(PackedByteArray([1, 0, 1, 0])): { "id": Vector2i(1, 0), "rotation": Vector2i(1, 0) },  # Vertical wall (North-South)
+    hash(PackedByteArray([1, 0, 1, 0])): { "id": Vector2i(1, 0), "rotation": Vector2i(1, 0) },   # Vertical wall (North-South)
 	hash(PackedByteArray([1, 1, 0, 0])): { "id": Vector2i(2, 0), "rotation": Vector2i(0, -1) },  # Outer corner (North and East)
-	hash(PackedByteArray([0, 1, 1, 0])): { "id": Vector2i(2, 0), "rotation": Vector2i(1, 0) },  # Outer corner (East and South)
-	hash(PackedByteArray([0, 0, 1, 1])): { "id": Vector2i(2, 0), "rotation": Vector2i(0, 1) },  # Outer corner (South and West)
+	hash(PackedByteArray([0, 1, 1, 0])): { "id": Vector2i(2, 0), "rotation": Vector2i(1, 0) },   # Outer corner (East and South)
+	hash(PackedByteArray([0, 0, 1, 1])): { "id": Vector2i(2, 0), "rotation": Vector2i(0, 1) },   # Outer corner (South and West)
 	hash(PackedByteArray([1, 0, 0, 1])): { "id": Vector2i(2, 0), "rotation": Vector2i(-1, 0) },  # Outer corner (West and North)
 	hash(PackedByteArray([1, 1, 1, 1])): { "id": Vector2i(3, 0), "rotation": Vector2i(0, -1) },  # Cross intersection
 	hash(PackedByteArray([1, 0, 0, 0])): { "id": Vector2i(4, 0), "rotation": Vector2i(0, -1) },  # Endcap (North)
-	hash(PackedByteArray([0, 1, 0, 0])): { "id": Vector2i(4, 0), "rotation": Vector2i(1, 0) },  # Endcap (East)
-	hash(PackedByteArray([0, 0, 1, 0])): { "id": Vector2i(4, 0), "rotation": Vector2i(0, 1) },  # Endcap (South)
+	hash(PackedByteArray([0, 1, 0, 0])): { "id": Vector2i(4, 0), "rotation": Vector2i(1, 0) },   # Endcap (East)
+	hash(PackedByteArray([0, 0, 1, 0])): { "id": Vector2i(4, 0), "rotation": Vector2i(0, 1) },   # Endcap (South)
 	hash(PackedByteArray([0, 0, 0, 1])): { "id": Vector2i(4, 0), "rotation": Vector2i(-1, 0) },  # Endcap (West)
 	hash(PackedByteArray([1, 1, 0, 1])): { "id": Vector2i(5, 0), "rotation": Vector2i(0, -1) },  # T-junction (no South)
-	hash(PackedByteArray([1, 1, 1, 0])): { "id": Vector2i(5, 0), "rotation": Vector2i(1, 0) },  # T-junction (no East)
-	hash(PackedByteArray([0, 1, 1, 1])): { "id": Vector2i(5, 0), "rotation": Vector2i(0, 1) },  # T-junction (no North)
+	hash(PackedByteArray([1, 1, 1, 0])): { "id": Vector2i(5, 0), "rotation": Vector2i(1, 0) },   # T-junction (no East)
+	hash(PackedByteArray([0, 1, 1, 1])): { "id": Vector2i(5, 0), "rotation": Vector2i(0, 1) },   # T-junction (no North)
 	hash(PackedByteArray([1, 0, 1, 1])): { "id": Vector2i(5, 0), "rotation": Vector2i(-1, 0) }   # T-junction (no West)
-}
-
-var tile_transforms: Dictionary = {
-	Vector2i(0, -1): 0, # No rotation, default orientation
-	Vector2i(1, 0): TileSetAtlasSource.TRANSFORM_TRANSPOSE | TileSetAtlasSource.TRANSFORM_FLIP_H, # 90 degrees clockwise
-	Vector2i(0, 1): TileSetAtlasSource.TRANSFORM_FLIP_H | TileSetAtlasSource.TRANSFORM_FLIP_V, # 180 degrees clockwise
-	Vector2i(-1, 0): TileSetAtlasSource.TRANSFORM_FLIP_V | TileSetAtlasSource.TRANSFORM_TRANSPOSE # 270 degrees clockwise
 }
 
 var piece_size: int = 3
 
-var tiles: Dictionary = {
-	"L": [
+var pieces: Dictionary = {
+	"J": [
 		[1, 1, 1],
 		[0, 0, 1],
 		[0, 0, 0]
 	],
-	"J": [
+	"L": [
 		[0, 0, 0],
 		[0, 0, 1],
 		[1, 1, 1]
@@ -75,13 +75,14 @@ var tiles: Dictionary = {
 		[1, 1, 0],
 		[0, 1, 1]
 	],
-	"Q": [
+	"O": [
 		[1, 1, 0],
 		[1, 1, 0],
 		[0, 0, 0]
 	]
 }
 
+# Print maze section (or entire maze) to console for debugging
 func pretty_print_maze_section(maze: Array, start_x: int = 0, start_y: int = 0, width: int = 0, height: int = 0) -> void:
 	# Loop through the specified section of the maze
 	if not width:
@@ -96,6 +97,7 @@ func pretty_print_maze_section(maze: Array, start_x: int = 0, start_y: int = 0, 
 			row += "#" if maze[x][y] == 1 else " "
 		print(row)
 
+# Godot lifecycle: Maze is generated and rendered to TileMapLayer
 func _ready() -> void:
 	randomize()
 	var maze: Array = []
@@ -109,17 +111,17 @@ func _ready() -> void:
 
 	render_maze(maze)
 
+# Create a "coarse" grid of the maze from 3x3 "tetris" pieces
 func generate_coarse_grid() -> Array:
 	## To disable subsequent warning:
 	# Project => Project Settings -> [Filter: Integer Division] => Ignore
 	var coarse_grid_width = maze_width / piece_size
 	var coarse_grid_height = maze_height / piece_size
 
-	# Initialize coarse_grid with nulls
 	var coarse_grid: Array = []
 	coarse_grid.resize(coarse_grid_width)
 
-	var row_template: Array = []
+	var row_template: Array = [null]
 	row_template.resize(coarse_grid_height)
 	row_template.fill(null)
 
@@ -127,7 +129,7 @@ func generate_coarse_grid() -> Array:
 		var row = row_template.duplicate()
 		coarse_grid[x] = row
 
-	var piece_keys = tiles.keys()
+	var piece_keys = pieces.keys()
 	for x in range(coarse_grid_width):
 		for y in range(coarse_grid_height):
 			var random_piece = piece_keys.pick_random()
@@ -135,23 +137,19 @@ func generate_coarse_grid() -> Array:
 	
 	return coarse_grid
 
-func is_within_bounds(grid: Array, pos: Vector2i) -> bool:
-	return pos.x >= 0 and pos.x < grid.size() and pos.y >= 0 and pos.y < grid[0].size()
-
-# Maze should be an empty array at this point, will be modified in place
+#  Expand the "coarse" grid into final maze
 func expand_into_maze(coarse_grid, maze) -> void:
 	for x in range(maze_width):
 		maze.append([])
 		for y in range(maze_height):
 			maze[x].append(0)
 
-	# Place each piece from the coarse grid onto the final grid
+	# Render each piece from the coarse grid onto the final maze
+	# Rotate randomly
 	for grid_x in range(coarse_grid.size()):
 		for grid_y in range(coarse_grid[0].size()):
-			var piece = tiles[coarse_grid[grid_x][grid_y]].duplicate(true)
+			var piece = pieces[coarse_grid[grid_x][grid_y]].duplicate(true)
 			piece = rotate_piece(piece)
-
-			pretty_print_maze_section(piece)
 
 			for piece_x in range(piece.size()):
 				for piece_y in range(piece[0].size()):
@@ -159,7 +157,7 @@ func expand_into_maze(coarse_grid, maze) -> void:
 					var final_y = grid_y * piece_size + piece_y
 					maze[final_x][final_y] = piece[piece_x][piece_y]
 
-# FIXME: Doesn't seem to, you know...work.
+# Scan for and remove cul_de_sacs
 func remove_cul_de_sacs(maze: Array) -> void:
 	var size_x = maze.size()
 	var size_y = maze[0].size()
@@ -175,23 +173,25 @@ func remove_cul_de_sacs(maze: Array) -> void:
 						remove_random_adjacent_wall(maze, x, y)
 						changes = true
 
+# Remove a wall adjacent to (x, y) at random
 func remove_random_adjacent_wall(maze: Array, x: int, y: int) -> void:
 	var directions = DIRECTIONS.duplicate()
 	directions.shuffle()
 
+	var loc: Vector2i = Vector2i(x, y)
+
 	for dir in directions:
-		var nx = x + dir[0]
-		var ny = y + dir[1]
-		
-		if nx >= 0 and ny >= 0 and nx < maze.size() and ny < maze[0].size():
-			if maze[nx][ny] == 1:
-				maze[nx][ny] = 0
+		if in_bounds(maze, loc + dir):
+			if maze[x + dir[0]][y + dir[1]] == 1:
+				maze[x + dir[0]][y + dir[1]] = 0
 
 				return
 
+# Is the target location within maze bounds?
 func in_bounds(maze: Array, looking: Vector2i) -> bool:
 	return looking.x >= 0 and looking.y >= 0 and looking.x < maze.size() and looking.y < maze[0].size()
 
+# Return neighbors to target location in NESW array
 func get_neighbors(maze: Array, x: int, y: int) -> Array:
 	var neighbors: Array = [] # NESW
 	var location: Vector2i = Vector2i(x, y)
@@ -205,14 +205,17 @@ func get_neighbors(maze: Array, x: int, y: int) -> Array:
 
 	return neighbors
 
+# Return sum of arguments => used for reduce call
 func sum(accum: int, number: int) -> int:
 	return accum + number
 
+# Return Number of "empty" neighbor tiles (NESW)
 func count_open_neighbors(maze: Array, x: int, y: int) -> int:
 	var neighbors = get_neighbors(maze, x, y)
 
 	return 4 - neighbors.reduce(sum, 0)
 
+# Rotate a piece, return a copy
 func rotate_piece(piece: Array) -> Array:
 	var rotations = randi() % 4 # 0 .. 3
 
@@ -225,12 +228,13 @@ func rotate_piece(piece: Array) -> Array:
 
 	return rotated_piece
 
+# Rotate 90 degrees clockwise, in place
 func rotate_90_in_place(piece: Array) -> void:
 	var size = piece.size()
 	
 	# Step 1: Transpose the matrix (swap rows and columns)
 	for y in range(size):
-		for x in range(y + 1, size):  # Only process upper triangle
+		for x in range(y + 1, size):
 			var temp = piece[y][x]
 			piece[y][x] = piece[x][y]
 			piece[x][y] = temp
@@ -239,18 +243,18 @@ func rotate_90_in_place(piece: Array) -> void:
 	for y in range(size):
 		piece[y].reverse()
 
+# Draw the maze to the TileMapLayer
 func render_maze(maze):
 	for x in range(maze.size()):
 		for y in range(maze[0].size()):
 
-			if maze[x][y] == 1:
-
+			if maze[x][y] == 1: # Wall
 				var neighbors: Array = get_neighbors(maze, x, y)
 				# Cast into a PackedByteArray so that hashes are guaranteed to be consistent.
 				# I'm not sure if this matters, but ChatGPT was being super uppity about it.
 				var tile: Dictionary = TILE_LOOKUP[hash(PackedByteArray(neighbors))]
-				var transform_flags = tile_transforms[tile["rotation"]]
+				var transform_flags = TILE_TRANSFORMS[tile["rotation"]]
 
 				set_cell(Vector2i(x, y), 0, tile["id"], transform_flags)
-			else:
-				pass #
+			else: # Empty
+				set_cell(Vector2i(x, y), 0, Vector2i(1, 1))
