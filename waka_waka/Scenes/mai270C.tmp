@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=4 uid="uid://tnjwrwydx71v"]
+
+[ext_resource type="PackedScene" uid="uid://c4ev5q5xc3lts" path="res://Scenes/Player.tscn" id="1_sl6g6"]
+[ext_resource type="TileSet" uid="uid://can6ctq0bkv11" path="res://Assets/maze.tres" id="2_ajs88"]
+[ext_resource type="Script" path="res://Scenes/maze.gd" id="3_frwhm"]
+
+[node name="Main" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_sl6g6")]
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position_smoothing_enabled = true
+
+[node name="Maze" type="TileMapLayer" parent="."]
+scale = Vector2(4, 4)
+tile_map_data = PackedByteArray("AAACAAUAAQAFAAAAAAADAAUAAQABAAAAAAAFAAUAAQABAAAAAAAHAAUAAQAHAAAAAAAHAAQAAQAEAAAAAAAJAAAAAQAEAAAAAAAHAAAAAQAHAAAAAAAGAAAAAQAHAAAAAAAMAAQAAQAEAAAAAAANAAQAAQABAAAAAAAOAAQAAQACAAAAAAAQAAIAAQAGAAAAAAAQAAEAAQADAAAAAAAKAAEAAQAAAAAAAAALAAEAAQAEAAAAAAANAAAAAQAGAAAAAAA=")
+tile_set = ExtResource("2_ajs88")
+script = ExtResource("3_frwhm")
+maze_width = null
+maze_height = null

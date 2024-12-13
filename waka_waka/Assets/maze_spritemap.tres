@@ -1,0 +1,46 @@
+[gd_resource type="TileSet" load_steps=4 format=3 uid="uid://2kbf0ykmvv3r"]
+
+[ext_resource type="Texture2D" uid="uid://c2kq5cj4oe0it" path="res://Assets/maze_spritemap.png" id="1_4sko1"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_kupj4"]
+friction = 0.6
+bounce = 0.19
+absorbent = true
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qmjwi"]
+texture = ExtResource("1_4sko1")
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -2, 8, -2, 8, 2, -8, 2)
+2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, 2, 2, 2, 2, -2, 8, -2)
+2:0/0/physics_layer_0/polygon_1/points = PackedVector2Array(2, -8, 2, -2, -2, -2, -2, -8)
+2:0/0/physics_layer_0/polygon_2/points = PackedVector2Array(3, -3, 0, -3, 0, 1, 3, 1)
+2:0/0/physics_layer_0/polygon_3/points = PackedVector2Array(-1, 0, -1, -2, 0, -2, 0, 0)
+3:0/0 = 0
+3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-2, -8, 2, -8, 2, 8, -2, 8)
+3:0/0/physics_layer_0/polygon_1/points = PackedVector2Array(8, -2, -8, -2, -8, 2, 8, 2)
+3:0/0/physics_layer_0/polygon_2/points = PackedVector2Array(-4, -3, 4, -3, 4, 3, -4, 3)
+3:0/0/physics_layer_0/polygon_3/points = PackedVector2Array(-3, -4, 3, -4, 3, 4, -3, 4)
+4:0/0 = 0
+4:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(2, -8, 2, 1, -2, 1, -2, -8)
+4:0/0/physics_layer_0/polygon_1/points = PackedVector2Array(1, 2, -1, 2, -1, 1, 1, 1)
+5:0/0 = 0
+5:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-2, -8, 2, -8, 2, -3, -2, -3)
+5:0/0/physics_layer_0/polygon_1/points = PackedVector2Array(8, -2, -8, -2, -8, 1, 8, 1)
+5:0/0/physics_layer_0/polygon_2/points = PackedVector2Array(1, 2, 8, 2, 8, 1, 1, 1)
+5:0/0/physics_layer_0/polygon_3/points = PackedVector2Array(-3, -3, 3, -3, 3, -2, -3, -2)
+5:0/0/physics_layer_0/polygon_4/points = PackedVector2Array(-8, 2, -1, 2, -1, 1, -8, 1)
+0:1/0 = 0
+1:1/0 = 0
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-3, -7, 3, -7, 3, 7, -3, 7)
+0:0/0/physics_layer_0/polygon_1/points = PackedVector2Array(-6, -3, -7, -3, -7, 3, -6, 3)
+0:0/0/physics_layer_0/polygon_2/points = PackedVector2Array(5, -6, 5, 6, 3, 6, 3, -6)
+0:0/0/physics_layer_0/polygon_3/points = PackedVector2Array(-3, 6, -5, 6, -5, -6, -3, -6)
+0:0/0/physics_layer_0/polygon_4/points = PackedVector2Array(-6, 5, 6, 5, 6, -5, -6, -5)
+0:0/0/physics_layer_0/polygon_5/points = PackedVector2Array(7, -3, 7, 3, 6, 3, 6, -3)
+
+[resource]
+physics_layer_0/collision_layer = 1
+physics_layer_0/physics_material = SubResource("PhysicsMaterial_kupj4")
+sources/0 = SubResource("TileSetAtlasSource_qmjwi")
