@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://c4ev5q5xc3lts"]
 
-[ext_resource type="Script" path="res://Scenes/player.gd" id="1_32x36"]
-[ext_resource type="Texture2D" uid="uid://dpiqm6j0aqxbu" path="res://Assets/ghosts.png" id="2_4tikh"]
+[ext_resource type="Script" path="res://scenes/waka-waka/Scenes/player.gd" id="1_32x36"]
+[ext_resource type="Texture2D" uid="uid://dpiqm6j0aqxbu" path="res://scenes/waka-waka/Assets/ghosts.png" id="2_4tikh"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_o01su"]
 radius = 25.0

@@ -1,6 +1,6 @@
 [gd_resource type="TileSet" load_steps=4 format=3 uid="uid://2kbf0ykmvv3r"]
 
-[ext_resource type="Texture2D" uid="uid://c2kq5cj4oe0it" path="res://Assets/maze_spritemap.png" id="1_4sko1"]
+[ext_resource type="Texture2D" uid="uid://c2kq5cj4oe0it" path="res://scenes/waka-waka/Assets/maze_spritemap.png" id="1_4sko1"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_kupj4"]
 friction = 0.6

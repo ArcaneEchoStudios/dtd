@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=4 uid="uid://tnjwrwydx71v"]
 
-[ext_resource type="PackedScene" uid="uid://c4ev5q5xc3lts" path="res://Scenes/Player.tscn" id="1_sl6g6"]
-[ext_resource type="TileSet" uid="uid://2kbf0ykmvv3r" path="res://Assets/maze_spritemap.tres" id="2_5prns"]
-[ext_resource type="Script" path="res://Scenes/maze.gd" id="3_frwhm"]
+[ext_resource type="PackedScene" uid="uid://c4ev5q5xc3lts" path="res://scenes/waka-waka/Scenes/Player.tscn" id="1_sl6g6"]
+[ext_resource type="TileSet" uid="uid://2kbf0ykmvv3r" path="res://scenes/waka-waka/Assets/maze_spritemap.tres" id="2_5prns"]
+[ext_resource type="Script" path="res://scenes/waka-waka/Scenes/maze.gd" id="3_frwhm"]
 
 [node name="Main" type="Node2D"]
 

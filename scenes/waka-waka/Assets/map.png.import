@@ -10,7 +10,7 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/map.png"
+source_file="res://scenes/waka-waka/Assets/map.png"
 dest_files=["res://.godot/imported/map.png-ae60f075f26517d17aa23f1af6bbabe0.ctex"]
 
 [params]

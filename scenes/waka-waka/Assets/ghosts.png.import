@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c2kq5cj4oe0it"
-path="res://.godot/imported/maze_spritemap.png-f84579539c98d467cc191673e21732e1.ctex"
+uid="uid://dpiqm6j0aqxbu"
+path="res://.godot/imported/ghosts.png-29982f3d9f65c542526ce882997bbf18.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/maze_spritemap.png"
-dest_files=["res://.godot/imported/maze_spritemap.png-f84579539c98d467cc191673e21732e1.ctex"]
+source_file="res://scenes/waka-waka/Assets/ghosts.png"
+dest_files=["res://.godot/imported/ghosts.png-29982f3d9f65c542526ce882997bbf18.ctex"]
 
 [params]
 
