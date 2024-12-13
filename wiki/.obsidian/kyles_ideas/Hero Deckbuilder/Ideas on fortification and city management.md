@@ -1,0 +1,5 @@
+ So the little NPC villagers might start with 3 cards: "Sleep", "Socialize", and "Work", where "Work" is "do whatever high priority task needs doing at a low skill level", and Sleep/Socialize are recovery type actions (Sleep: +2 heal/+4 energy and Socialize: +2 experience) or something like that. Every game round they automatically play a card from their deck. You want them to chop wood, so you could **either** add an "axe: +2 log" card, **or** replace the "Work" card. Adding means more work gets done but your people get tired-er/recover from wounds slower. You add a "Bard" to your village which has a "Lute" card: "+1 energy/+1 experience to every socialize card played in this village this round", or something. But also an occasional "cuckold" card, because bard with some debuff.
+ 
+ Basically implement this as a card system: [https://rimworldwiki.com/images/thumb/f/fd/Work_priorities.jpg/800px-Work_priorities.jpg](https://rimworldwiki.com/images/thumb/f/fd/Work_priorities.jpg/800px-Work_priorities.jpg)
+ 
+ Zomboids attack the village: Everybody gets a "hide in room" card as a debuff until something recovers them (healing while at full health, for example)
