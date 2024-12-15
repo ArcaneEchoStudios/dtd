@@ -15,4 +15,5 @@ The game.tscn (scene) and associated game.gd (script) is the real entry point fo
 scenes/main-menu controls... you guessed it the main menu :p
 Everything in /scenes/clock-combat is a prototype and is messy and icky.
 
-Our wiki is hosted [here](/wiki)
+Our wiki is hosted [here](https://github.com/kalebpomeroy/dtd/wiki)
+
