@@ -10,4 +10,3 @@ func _init(name: String, time: int, effect: String) -> void:
     self.name = name
     self.time = time
     self.effect = effect
-

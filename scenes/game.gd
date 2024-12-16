@@ -7,6 +7,8 @@ var current_scene: Node = null
 # figure out how to lazy load them.
 var scenes = {
     "clock-combat": preload("res://scenes/clock-combat/combat.tscn"),
+    "waka-waka": preload("res://scenes/waka-waka/Scenes/main.tscn"),
+
     "menu": preload("res://scenes/main-menu/menu.tscn"),
 }
 
@@ -26,7 +28,7 @@ func change_scene(scene_name: String):
     # If there's a scene already, we should remove it
     if current_scene:
         current_scene.queue_free()
-        
+
     # Create a new instance of the scene. If/when we get to passing information
     # between scenes, this is likely the place we hook it in.
     var scene = scenes[scene_name].instantiate()
