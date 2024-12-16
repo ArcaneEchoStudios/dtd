@@ -18,26 +18,25 @@ const TILE_TRANSFORMS: Dictionary = {
     Vector2i(-1, 0): TileSetAtlasSource.TRANSFORM_FLIP_V | TileSetAtlasSource.TRANSFORM_TRANSPOSE # 270 degrees clockwise
 }
 
-#FIXME: Rename "id" key as "atlas_id".
-
 # Lookup table: maps hashed PackedByteArray (NESW) to (atlas_id, # of clockwise rotations)
+## Using and naming this like a const, but the `hash` function forces it to be a var
 var TILE_LOOKUP = {
-    hash(PackedByteArray([0, 0, 0, 0])): { "id": Vector2i(0, 0), "rotation": Vector2i(0, -1) },  # Isolated wall (Island)
-    hash(PackedByteArray([0, 1, 0, 1])): { "id": Vector2i(1, 0), "rotation": Vector2i(0, -1) },  # Horizontal wall (East-West)
-    hash(PackedByteArray([1, 0, 1, 0])): { "id": Vector2i(1, 0), "rotation": Vector2i(1, 0) },   # Vertical wall (North-South)
-    hash(PackedByteArray([1, 1, 0, 0])): { "id": Vector2i(2, 0), "rotation": Vector2i(0, -1) },  # Outer corner (North and East)
-    hash(PackedByteArray([0, 1, 1, 0])): { "id": Vector2i(2, 0), "rotation": Vector2i(1, 0) },   # Outer corner (East and South)
-    hash(PackedByteArray([0, 0, 1, 1])): { "id": Vector2i(2, 0), "rotation": Vector2i(0, 1) },   # Outer corner (South and West)
-    hash(PackedByteArray([1, 0, 0, 1])): { "id": Vector2i(2, 0), "rotation": Vector2i(-1, 0) },  # Outer corner (West and North)
-    hash(PackedByteArray([1, 1, 1, 1])): { "id": Vector2i(3, 0), "rotation": Vector2i(0, -1) },  # Cross intersection
-    hash(PackedByteArray([1, 0, 0, 0])): { "id": Vector2i(4, 0), "rotation": Vector2i(0, -1) },  # Endcap (North)
-    hash(PackedByteArray([0, 1, 0, 0])): { "id": Vector2i(4, 0), "rotation": Vector2i(1, 0) },   # Endcap (East)
-    hash(PackedByteArray([0, 0, 1, 0])): { "id": Vector2i(4, 0), "rotation": Vector2i(0, 1) },   # Endcap (South)
-    hash(PackedByteArray([0, 0, 0, 1])): { "id": Vector2i(4, 0), "rotation": Vector2i(-1, 0) },  # Endcap (West)
-    hash(PackedByteArray([1, 1, 0, 1])): { "id": Vector2i(5, 0), "rotation": Vector2i(0, -1) },  # T-junction (no South)
-    hash(PackedByteArray([1, 1, 1, 0])): { "id": Vector2i(5, 0), "rotation": Vector2i(1, 0) },   # T-junction (no East)
-    hash(PackedByteArray([0, 1, 1, 1])): { "id": Vector2i(5, 0), "rotation": Vector2i(0, 1) },   # T-junction (no North)
-    hash(PackedByteArray([1, 0, 1, 1])): { "id": Vector2i(5, 0), "rotation": Vector2i(-1, 0) }   # T-junction (no West)
+    hash(PackedByteArray([0, 0, 0, 0])): { "atlas_id": Vector2i(0, 0), "rotation": Vector2i(0, -1) },  # Isolated wall (Island)
+    hash(PackedByteArray([1, 0, 0, 0])): { "atlas_id": Vector2i(4, 0), "rotation": Vector2i(0, -1) },  # Endcap (North)
+    hash(PackedByteArray([0, 1, 0, 0])): { "atlas_id": Vector2i(4, 0), "rotation": Vector2i(1, 0) },   # Endcap (East)
+    hash(PackedByteArray([0, 0, 1, 0])): { "atlas_id": Vector2i(4, 0), "rotation": Vector2i(0, 1) },   # Endcap (South)
+    hash(PackedByteArray([0, 0, 0, 1])): { "atlas_id": Vector2i(4, 0), "rotation": Vector2i(-1, 0) },  # Endcap (West)
+    hash(PackedByteArray([0, 1, 0, 1])): { "atlas_id": Vector2i(1, 0), "rotation": Vector2i(0, -1) },  # Horizontal wall (East-West)
+    hash(PackedByteArray([1, 0, 1, 0])): { "atlas_id": Vector2i(1, 0), "rotation": Vector2i(1, 0) },   # Vertical wall (North-South)
+    hash(PackedByteArray([1, 1, 0, 0])): { "atlas_id": Vector2i(2, 0), "rotation": Vector2i(0, -1) },  # Corner (North and East)
+    hash(PackedByteArray([0, 1, 1, 0])): { "atlas_id": Vector2i(2, 0), "rotation": Vector2i(1, 0) },   # Corner (East and South)
+    hash(PackedByteArray([0, 0, 1, 1])): { "atlas_id": Vector2i(2, 0), "rotation": Vector2i(0, 1) },   # Corner (South and West)
+    hash(PackedByteArray([1, 0, 0, 1])): { "atlas_id": Vector2i(2, 0), "rotation": Vector2i(-1, 0) },  # Corner (West and North)
+    hash(PackedByteArray([1, 1, 0, 1])): { "atlas_id": Vector2i(5, 0), "rotation": Vector2i(0, -1) },  # Tee (no South)
+    hash(PackedByteArray([1, 1, 1, 0])): { "atlas_id": Vector2i(5, 0), "rotation": Vector2i(1, 0) },   # Tee (no East)
+    hash(PackedByteArray([0, 1, 1, 1])): { "atlas_id": Vector2i(5, 0), "rotation": Vector2i(0, 1) },   # Tee (no North)
+    hash(PackedByteArray([1, 0, 1, 1])): { "atlas_id": Vector2i(5, 0), "rotation": Vector2i(-1, 0) },   # Tee (no West)
+    hash(PackedByteArray([1, 1, 1, 1])): { "atlas_id": Vector2i(3, 0), "rotation": Vector2i(0, -1) }  # Cross intersection
 }
 
 var piece_size: int = 3
@@ -87,7 +86,7 @@ var pieces: Dictionary = {
 
 # Print maze section (or entire maze) to console for debugging
 func pretty_print_maze_section(maze: Array, start_x: int = 0, start_y: int = 0, width: int = 0, height: int = 0) -> void:
-    # Loop through the specified section of the maze
+    # Loop through the specified section of the, or the entire, maze
     if not width:
         width = maze.size()
 
@@ -258,6 +257,6 @@ func render_maze(maze):
                 var tile: Dictionary = TILE_LOOKUP[hash(PackedByteArray(neighbors))]
                 var transform_flags = TILE_TRANSFORMS[tile["rotation"]]
 
-                set_cell(Vector2i(x, y), 0, tile["id"], transform_flags)
+                set_cell(Vector2i(x, y), 0, tile["atlas_id"], transform_flags)
             else: # Empty
                 set_cell(Vector2i(x, y), 0, Vector2i(1, 1))
