@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-# Movement parameters
+## Movement parameters
 @export var max_speed: float = 200.0 # Maximum speed the character can reach
 @export var acceleration: float = 500.0 # How quickly the character speeds up
 @export var deceleration: float = 300.0 # How quickly the character slows down
@@ -10,9 +10,12 @@ extends CharacterBody2D
 func _ready() -> void:
     velocity = Vector2.ZERO
     motion_mode = MOTION_MODE_FLOATING
-    var shader_material = ShaderMaterial.new()
+
+    ## Shader needs some work, but kinda works like this:
+    #var shader_material = ShaderMaterial.new()
     #shader_material.shader = load("res://scenes/waka-waka/Assets/ghost_shader.gdshader")
     #sprite.material = shader_material
+
     sprite.play("idle")
 
 func _physics_process(delta: float) -> void:
