@@ -1,7 +1,8 @@
 extends TileMapLayer
 
-@export var maze_width: int = 90
-@export var maze_height: int = 90
+@export var maze_size: int = 90
+
+var maze_data: Array = []
 
 const NORTH: Vector2i = Vector2i(0, -1)
 const EAST: Vector2i = Vector2i(1, 0)
@@ -84,11 +85,6 @@ var pieces: Dictionary = {
         [1, 1, 0],
         [0, 1, 1]
     ],
-    #"O": [
-        #[1, 1, 0],
-        #[1, 1, 0],
-        #[0, 0, 0]
-    #],
      "C": [
         [1, 1, 1],
         [1, 0, 0],
@@ -124,83 +120,34 @@ func pretty_print_maze_section(maze: Array, start_x: int = 0, start_y: int = 0, 
 ## Godot lifecycle step:
 ##   Maze is generated from randomly rotated "tiles"
 func _ready() -> void:
-    randomize()
-    var maze: Array = []
+    pass
 
-    var coarse_grid: Array = generate_coarse_grid()
-    expand_into_maze(coarse_grid, maze)
-    remove_cul_de_sacs(maze)
+## Create and return a new empty "section" of the maze of the given size
+#    This array is ready to pass to other functions
+func new_maze_section(size: int = maze_size) -> Array:
+    var section = []
+    section.resize(size)
+    for x in range(size):
+        section[x] = []
+        section[x].resize(size)
+        section[x].fill(null)
 
-    # DEBUG
-    pretty_print_maze_section(maze)
+    return section
 
-    render_maze(maze)
+## Generate a section of the maze into the provided array
+func populate_maze_section(section: Array) -> void:
+    var num_chunks = section.size() / piece_size
 
-    position_player_in_start_area()
+    var piece_tiles = pieces.values()
 
-func position_player_in_start_area():
-    # Find the center of the maze
-    var center_x = maze_width / 2
-    var center_y = maze_height / 2
-
-    # Offset to center the player in the middle of the tile
-    var tile_size = 16  # Adjust based on your tile size
-    var player_position = Vector2(center_x * tile_size, center_y * tile_size)
-
-    var player = get_parent().get_node("Player")
-    var camera = player.get_node("Camera2D")
-
-    # Move the player
-    player.global_position = player_position
-
-    # Don't smoothly slide camera to new location
-    camera.reset_smoothing()
-
-## Create a "coarse" grid of the maze from 3x3 "tetris" pieces, designated by letter.
-func generate_coarse_grid() -> Array:
-    ## To disable subsequent warning:
-    # Project => Project Settings -> [Filter: Integer Division] => Ignore
-    var coarse_grid_width = maze_width / piece_size
-    var coarse_grid_height = maze_height / piece_size
-
-    var coarse_grid: Array = []
-    coarse_grid.resize(coarse_grid_width)
-
-    var row_template: Array = [null]
-    row_template.resize(coarse_grid_height)
-    row_template.fill(null)
-
-    for x in range(coarse_grid_width):
-        var row = row_template.duplicate()
-        coarse_grid[x] = row
-
-    var piece_keys = pieces.keys()
-    for x in range(coarse_grid_width):
-        for y in range(coarse_grid_height):
-            var random_piece = piece_keys.pick_random()
-            coarse_grid[x][y] = random_piece
-
-    return coarse_grid
-
-## Expand the "coarse" grid into final maze
-func expand_into_maze(coarse_grid, maze) -> void:
-    for x in range(maze_width):
-        maze.append([])
-        for y in range(maze_height):
-            maze[x].append(0)
-
-    # Render each piece from the coarse grid onto the final maze
-    # Rotate randomly
-    for grid_x in range(coarse_grid.size()):
-        for grid_y in range(coarse_grid[0].size()):
-            var piece = pieces[coarse_grid[grid_x][grid_y]].duplicate(true)
-            piece = rotate_piece(piece)
-
-            for piece_x in range(piece.size()):
-                for piece_y in range(piece[0].size()):
-                    var final_x = grid_x * piece_size + piece_x
-                    var final_y = grid_y * piece_size + piece_y
-                    maze[final_x][final_y] = piece[piece_x][piece_y]
+    for chunk_x in range(num_chunks):
+        for chunk_y in range(num_chunks):
+            var random_piece = rotated_piece(piece_tiles.pick_random())
+            for piece_x in range(piece_size):
+                for piece_y in range(piece_size):
+                    var final_x = chunk_x * piece_size + piece_x
+                    var final_y = chunk_y * piece_size + piece_y
+                    section[final_x][final_y] = random_piece[piece_x][piece_y]
 
 ## Scan for and remove cul_de_sacs
 func remove_cul_de_sacs(maze: Array) -> void:
@@ -261,8 +208,9 @@ func count_open_neighbors(maze: Array, x: int, y: int) -> int:
 
     return 4 - neighbors.reduce(sum, 0)
 
-## rotate a piece, return a copy
-func rotate_piece(piece: Array) -> Array:
+## Return a copy of a piece tile, randomly rotated.
+##   Note: A copy just to avoid modifying the original piece
+func rotated_piece(piece: Array) -> Array:
     var rotations = randi() % 4 # 0 .. 3
 
     # Clone the array to avoid modifying the original
