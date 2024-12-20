@@ -53,10 +53,10 @@ var pieces: Dictionary = {
     "J": [
         [1, 1, 1],
         [0, 0, 1],
-        [0, 0, 0]
+        [1, 0, 0]
     ],
     "L": [
-        [0, 0, 0],
+        [1, 0, 0],
         [0, 0, 1],
         [1, 1, 1]
     ],
@@ -88,7 +88,7 @@ var pieces: Dictionary = {
      "C": [
         [1, 1, 1],
         [1, 0, 0],
-        [1, 0, 0]
+        [1, 0, 1]
     ],
     "U": [  # U-shaped path
         [1, 0, 1],
@@ -147,7 +147,7 @@ func populate_maze_section(section: Array) -> void:
                 for piece_y in range(piece_size):
                     var final_x = chunk_x * piece_size + piece_x
                     var final_y = chunk_y * piece_size + piece_y
-                    section[final_x][final_y] = random_piece[piece_x][piece_y]
+                    section[final_y][final_x] = random_piece[piece_x][piece_y]
 
 ## Scan for and remove cul_de_sacs
 func remove_cul_de_sacs(maze: Array) -> void:
@@ -253,3 +253,17 @@ func render_maze(maze):
                 set_cell(Vector2i(x, y), 0, tile["atlas_id"], transform_flags)
             else: # Empty
                 set_cell(Vector2i(x, y), 0, Vector2i(1, 1))
+
+const ghost_start_box: Array = [
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 1, 1, 0, 1, 1, 0],
+    [0, 1, 0, 0, 0, 1, 0],
+    [0, 1, 1, 1, 1, 1, 0],
+    [0, 0, 0, 0, 0, 0, 0]
+]
+
+func place_ghost_start_box(maze: Array, loc: Vector2i):
+    for piece_x in range(ghost_start_box.size()):
+        for piece_y in range(ghost_start_box[0].size()):
+            var current: Vector2i = Vector2i(piece_y, piece_x) + loc
+            maze[current[0]][current[1]] = ghost_start_box[piece_x][piece_y]
