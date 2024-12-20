@@ -25,9 +25,9 @@ func add_action(action: Action) -> void:
 
 # Get an action by name
 func get_action(action_name: String) -> Action:
-    if action_name == '__random__': 
+    if action_name == '__random__':
         return actions[randi() % actions.size()]
-    else: 
+    else:
         for a in actions:
             if a.name == action_name:
                 return a
