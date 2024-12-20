@@ -8,7 +8,7 @@ const C = preload("res://shared/const.gd")
 # TODO: Why is this different? Should it be?
 var CombatLog = preload("res://scenes/clock-combat/combat_log.gd").new()
 
-# A list of characters we count as enemies. None so far. 
+# A list of characters we count as enemies. None so far.
 var enemies = []
 
 # See clock.gd
@@ -18,17 +18,17 @@ var party: Party
 
 signal scene_change # Define the signal
 
-# The core loop of the combat is based on the clock ticking. When it 
-# ticks, if we're not already ticking, start ticking. During a tick 
-# is all the interesting game design space to play with. 
+# The core loop of the combat is based on the clock ticking. When it
+# ticks, if we're not already ticking, start ticking. During a tick
+# is all the interesting game design space to play with.
 var ticking: bool = false
 func _on_clock_ticked():
     # We do this to keep from double ticking
     if ticking: return
-    
+
     ticking = true
     clock.turns += 1
-    await turn_time() 
+    await turn_time()
     await plan_enemies()
     ticking = false
 
@@ -39,12 +39,12 @@ func _ready() -> void:
     add_child(CombatLog)
 
     # Create the clock(x, y, r, points) and add it to the scene. Everything
-    # else about the clock is in clock.gd. 
+    # else about the clock is in clock.gd.
     clock = Clock.new(512, 412, 100, 7)
     add_child(clock)
     # Also, we need to pay attention to the clock_event specifically
     clock.clock_event.connect(Callable(self, "_on_clock_ticked"))
-    
+
     # Load the characters
     CombatLog.add_log_entry("Loading characters from character sheet...", Color.WHITE);
     var pcs = []
@@ -84,7 +84,7 @@ func _ready() -> void:
     button.position = Vector2(15, 15)
     button.connect("pressed", Callable(self, "_on_main_menu"))
     add_child(button)
-    
+
     for i in range(pcs.size()):
         var ch = pcs[i]
         var on_action = Callable(self, "plan_action")
@@ -96,20 +96,20 @@ func _on_main_menu():
     scene_change.emit('menu')
 
 # Given the name of the action, load the action and give it to the clock to plan.
-# If we actually added a step, make sure to redraw the clock. 
+# If we actually added a step, make sure to redraw the clock.
 func plan_action(ch: Character, action_name: String):
     var action = ch.get_action(action_name)
     if clock.plan_step(ch, action):
         clock.queue_redraw()
 
 
-func turn_time():    
+func turn_time():
     CombatLog.add_log_entry("Turning time")
     # Remove the current list of steps. We're done with this turn.
     clock.steps.pop_front()
     # Add an empty list onto the end
     clock.steps.append([])
-    # Redraw the new state. 
+    # Redraw the new state.
     clock.queue_redraw()
 
     # We're going to loop throw each step on the current slot
@@ -126,12 +126,12 @@ func turn_time():
         clock.steps[0].pop_front()
         clock.queue_redraw()
 
-# For each enemy, have them take an action. 
+# For each enemy, have them take an action.
 # TODO: Build a smart AI system
 func plan_enemies():
     CombatLog.add_log_entry("Enemies planning")
     for ch in enemies:
         plan_action(ch, "__random__")
-
+        
 func set_party(party: Party):
     self.party = party

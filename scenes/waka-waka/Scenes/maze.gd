@@ -1,43 +1,50 @@
 extends TileMapLayer
 
-@export var maze_width: int = 90
-@export var maze_height: int = 90
+@export var maze_size: int = 90
 
-#FIXME: Make rotation and direction names nicer/clearer.
+var maze_data: Array = []
+
+const NORTH: Vector2i = Vector2i(0, -1)
+const EAST: Vector2i = Vector2i(1, 0)
+const SOUTH: Vector2i = Vector2i(0, 1)
+const WEST: Vector2i = Vector2i(-1, 0)
+
+## In NESW order
 const DIRECTIONS: Array = [
-    Vector2i(0, -1), # North
-    Vector2i(1, 0),  # East
-    Vector2i(0, 1),  # South
-    Vector2i(-1, 0)  # West
+    NORTH,
+    EAST,
+    SOUTH,
+    WEST
 ]
 
+## "Normal" rotation for everything is "North", "Up", "Top of screen", Negative-Y axis
+## Think "Rotate to face KEY"
 const TILE_TRANSFORMS: Dictionary = {
-    Vector2i(0, -1): 0, # No rotation, default orientation
-    Vector2i(1, 0): TileSetAtlasSource.TRANSFORM_TRANSPOSE | TileSetAtlasSource.TRANSFORM_FLIP_H, # 90 degrees clockwise
-    Vector2i(0, 1): TileSetAtlasSource.TRANSFORM_FLIP_H | TileSetAtlasSource.TRANSFORM_FLIP_V,    # 180 degrees clockwise
-    Vector2i(-1, 0): TileSetAtlasSource.TRANSFORM_FLIP_V | TileSetAtlasSource.TRANSFORM_TRANSPOSE # 270 degrees clockwise
+    NORTH: 0, # No rotation, default orientation
+    EAST: TileSetAtlasSource.TRANSFORM_TRANSPOSE | TileSetAtlasSource.TRANSFORM_FLIP_H, # 90 degrees clockwise
+    SOUTH: TileSetAtlasSource.TRANSFORM_FLIP_H | TileSetAtlasSource.TRANSFORM_FLIP_V,   # 180 degrees clockwise
+    WEST: TileSetAtlasSource.TRANSFORM_FLIP_V | TileSetAtlasSource.TRANSFORM_TRANSPOSE  # 270 degrees clockwise
 }
 
-#FIXME: Rename "id" key as "atlas_id".
-
-# Lookup table: maps hashed PackedByteArray (NESW) to (atlas_id, # of clockwise rotations)
+## Lookup table: maps wall locations (NESW) to (atlas_id, # of clockwise rotations) for appropriate piece
+##   Keys are PackedByteArrays, representing [NESW]. 1 == wall. 0 == empty.
 var TILE_LOOKUP = {
-    hash(PackedByteArray([0, 0, 0, 0])): { "id": Vector2i(0, 0), "rotation": Vector2i(0, -1) },  # Isolated wall (Island)
-    hash(PackedByteArray([0, 1, 0, 1])): { "id": Vector2i(1, 0), "rotation": Vector2i(0, -1) },  # Horizontal wall (East-West)
-    hash(PackedByteArray([1, 0, 1, 0])): { "id": Vector2i(1, 0), "rotation": Vector2i(1, 0) },   # Vertical wall (North-South)
-    hash(PackedByteArray([1, 1, 0, 0])): { "id": Vector2i(2, 0), "rotation": Vector2i(0, -1) },  # Outer corner (North and East)
-    hash(PackedByteArray([0, 1, 1, 0])): { "id": Vector2i(2, 0), "rotation": Vector2i(1, 0) },   # Outer corner (East and South)
-    hash(PackedByteArray([0, 0, 1, 1])): { "id": Vector2i(2, 0), "rotation": Vector2i(0, 1) },   # Outer corner (South and West)
-    hash(PackedByteArray([1, 0, 0, 1])): { "id": Vector2i(2, 0), "rotation": Vector2i(-1, 0) },  # Outer corner (West and North)
-    hash(PackedByteArray([1, 1, 1, 1])): { "id": Vector2i(3, 0), "rotation": Vector2i(0, -1) },  # Cross intersection
-    hash(PackedByteArray([1, 0, 0, 0])): { "id": Vector2i(4, 0), "rotation": Vector2i(0, -1) },  # Endcap (North)
-    hash(PackedByteArray([0, 1, 0, 0])): { "id": Vector2i(4, 0), "rotation": Vector2i(1, 0) },   # Endcap (East)
-    hash(PackedByteArray([0, 0, 1, 0])): { "id": Vector2i(4, 0), "rotation": Vector2i(0, 1) },   # Endcap (South)
-    hash(PackedByteArray([0, 0, 0, 1])): { "id": Vector2i(4, 0), "rotation": Vector2i(-1, 0) },  # Endcap (West)
-    hash(PackedByteArray([1, 1, 0, 1])): { "id": Vector2i(5, 0), "rotation": Vector2i(0, -1) },  # T-junction (no South)
-    hash(PackedByteArray([1, 1, 1, 0])): { "id": Vector2i(5, 0), "rotation": Vector2i(1, 0) },   # T-junction (no East)
-    hash(PackedByteArray([0, 1, 1, 1])): { "id": Vector2i(5, 0), "rotation": Vector2i(0, 1) },   # T-junction (no North)
-    hash(PackedByteArray([1, 0, 1, 1])): { "id": Vector2i(5, 0), "rotation": Vector2i(-1, 0) }   # T-junction (no West)
+    hash(PackedByteArray([0, 0, 0, 0])): { "atlas_id": Vector2i(0, 0), "rotation": NORTH },  # Isolated wall (Island)
+    hash(PackedByteArray([1, 0, 0, 0])): { "atlas_id": Vector2i(4, 0), "rotation": NORTH },  # Endcap (North)
+    hash(PackedByteArray([0, 1, 0, 0])): { "atlas_id": Vector2i(4, 0), "rotation": EAST },   # Endcap (East)
+    hash(PackedByteArray([0, 0, 1, 0])): { "atlas_id": Vector2i(4, 0), "rotation": SOUTH },  # Endcap (South)
+    hash(PackedByteArray([0, 0, 0, 1])): { "atlas_id": Vector2i(4, 0), "rotation": WEST },   # Endcap (West)
+    hash(PackedByteArray([0, 1, 0, 1])): { "atlas_id": Vector2i(1, 0), "rotation": NORTH },  # Horizontal wall (East-West)
+    hash(PackedByteArray([1, 0, 1, 0])): { "atlas_id": Vector2i(1, 0), "rotation": EAST },   # Vertical wall (North-South)
+    hash(PackedByteArray([1, 1, 0, 0])): { "atlas_id": Vector2i(2, 0), "rotation": NORTH },  # Corner (North and East)
+    hash(PackedByteArray([0, 1, 1, 0])): { "atlas_id": Vector2i(2, 0), "rotation": EAST },   # Corner (East and South)
+    hash(PackedByteArray([0, 0, 1, 1])): { "atlas_id": Vector2i(2, 0), "rotation": SOUTH },  # Corner (South and West)
+    hash(PackedByteArray([1, 0, 0, 1])): { "atlas_id": Vector2i(2, 0), "rotation": WEST },   # Corner (West and North)
+    hash(PackedByteArray([1, 1, 0, 1])): { "atlas_id": Vector2i(5, 0), "rotation": NORTH },  # Tee (no South)
+    hash(PackedByteArray([1, 1, 1, 0])): { "atlas_id": Vector2i(5, 0), "rotation": EAST },   # Tee (no East)
+    hash(PackedByteArray([0, 1, 1, 1])): { "atlas_id": Vector2i(5, 0), "rotation": SOUTH },  # Tee (no North)
+    hash(PackedByteArray([1, 0, 1, 1])): { "atlas_id": Vector2i(5, 0), "rotation": WEST },   # Tee (no West)
+    hash(PackedByteArray([1, 1, 1, 1])): { "atlas_id": Vector2i(3, 0), "rotation": NORTH }   # Cross intersection
 }
 
 var piece_size: int = 3
@@ -46,10 +53,10 @@ var pieces: Dictionary = {
     "J": [
         [1, 1, 1],
         [0, 0, 1],
-        [0, 0, 0]
+        [1, 0, 0]
     ],
     "L": [
-        [0, 0, 0],
+        [1, 0, 0],
         [0, 0, 1],
         [1, 1, 1]
     ],
@@ -78,16 +85,26 @@ var pieces: Dictionary = {
         [1, 1, 0],
         [0, 1, 1]
     ],
-    "O": [
-        [1, 1, 0],
-        [1, 1, 0],
-        [0, 0, 0]
+     "C": [
+        [1, 1, 1],
+        [1, 0, 0],
+        [1, 0, 1]
+    ],
+    "U": [  # U-shaped path
+        [1, 0, 1],
+        [1, 1, 1],
+        [0, 1, 0]
+    ],
+    "X": [  # Cross intersection
+        [0, 1, 0],
+        [1, 1, 1],
+        [0, 1, 0]
     ]
 }
 
 # Print maze section (or entire maze) to console for debugging
 func pretty_print_maze_section(maze: Array, start_x: int = 0, start_y: int = 0, width: int = 0, height: int = 0) -> void:
-    # Loop through the specified section of the maze
+    # Loop through the specified section of the, or the entire, maze.
     if not width:
         width = maze.size()
 
@@ -100,67 +117,39 @@ func pretty_print_maze_section(maze: Array, start_x: int = 0, start_y: int = 0, 
             row += "#" if maze[x][y] == 1 else " "
         print(row)
 
-# Godot lifecycle: Maze is generated and rendered to TileMapLayer
+## Godot lifecycle step:
+##   Maze is generated from randomly rotated "tiles"
 func _ready() -> void:
-    randomize()
-    var maze: Array = []
+    pass
 
-    var coarse_grid: Array = generate_coarse_grid()
-    expand_into_maze(coarse_grid, maze)
-    remove_cul_de_sacs(maze)
+## Create and return a new empty "section" of the maze of the given size
+#    This array is ready to pass to other functions
+func new_maze_section(size: int = maze_size) -> Array:
+    var section = []
+    section.resize(size)
+    for x in range(size):
+        section[x] = []
+        section[x].resize(size)
+        section[x].fill(null)
 
-    # DEBUG
-    pretty_print_maze_section(maze)
+    return section
 
-    render_maze(maze)
+## Generate a section of the maze into the provided array
+func populate_maze_section(section: Array) -> void:
+    var num_chunks = section.size() / piece_size
 
-# Create a "coarse" grid of the maze from 3x3 "tetris" pieces
-func generate_coarse_grid() -> Array:
-    ## To disable subsequent warning:
-    # Project => Project Settings -> [Filter: Integer Division] => Ignore
-    var coarse_grid_width = maze_width / piece_size
-    var coarse_grid_height = maze_height / piece_size
+    var piece_tiles = pieces.values()
 
-    var coarse_grid: Array = []
-    coarse_grid.resize(coarse_grid_width)
+    for chunk_x in range(num_chunks):
+        for chunk_y in range(num_chunks):
+            var random_piece = rotated_piece(piece_tiles.pick_random())
+            for piece_x in range(piece_size):
+                for piece_y in range(piece_size):
+                    var final_x = chunk_x * piece_size + piece_x
+                    var final_y = chunk_y * piece_size + piece_y
+                    section[final_y][final_x] = random_piece[piece_x][piece_y]
 
-    var row_template: Array = [null]
-    row_template.resize(coarse_grid_height)
-    row_template.fill(null)
-
-    for x in range(coarse_grid_width):
-        var row = row_template.duplicate()
-        coarse_grid[x] = row
-
-    var piece_keys = pieces.keys()
-    for x in range(coarse_grid_width):
-        for y in range(coarse_grid_height):
-            var random_piece = piece_keys.pick_random()
-            coarse_grid[x][y] = random_piece
-
-    return coarse_grid
-
-#  Expand the "coarse" grid into final maze
-func expand_into_maze(coarse_grid, maze) -> void:
-    for x in range(maze_width):
-        maze.append([])
-        for y in range(maze_height):
-            maze[x].append(0)
-
-    # Render each piece from the coarse grid onto the final maze
-    # Rotate randomly
-    for grid_x in range(coarse_grid.size()):
-        for grid_y in range(coarse_grid[0].size()):
-            var piece = pieces[coarse_grid[grid_x][grid_y]].duplicate(true)
-            piece = rotate_piece(piece)
-
-            for piece_x in range(piece.size()):
-                for piece_y in range(piece[0].size()):
-                    var final_x = grid_x * piece_size + piece_x
-                    var final_y = grid_y * piece_size + piece_y
-                    maze[final_x][final_y] = piece[piece_x][piece_y]
-
-# Scan for and remove cul_de_sacs
+## Scan for and remove cul_de_sacs
 func remove_cul_de_sacs(maze: Array) -> void:
     var size_x = maze.size()
     var size_y = maze[0].size()
@@ -176,7 +165,7 @@ func remove_cul_de_sacs(maze: Array) -> void:
                         remove_random_adjacent_wall(maze, x, y)
                         changes = true
 
-# Remove a wall adjacent to (x, y) at random
+## Remove a wall adjacent to (x, y) at random
 func remove_random_adjacent_wall(maze: Array, x: int, y: int) -> void:
     var directions = DIRECTIONS.duplicate()
     directions.shuffle()
@@ -190,11 +179,11 @@ func remove_random_adjacent_wall(maze: Array, x: int, y: int) -> void:
 
                 return
 
-# Is the target location within maze bounds?
+## Is the target location within maze bounds?
 func in_bounds(maze: Array, looking: Vector2i) -> bool:
     return looking.x >= 0 and looking.y >= 0 and looking.x < maze.size() and looking.y < maze[0].size()
 
-# Return neighbors to target location in NESW array
+## Return neighbors to target location in NESW array
 func get_neighbors(maze: Array, x: int, y: int) -> Array:
     var neighbors: Array = [] # NESW
     var location: Vector2i = Vector2i(x, y)
@@ -208,18 +197,20 @@ func get_neighbors(maze: Array, x: int, y: int) -> Array:
 
     return neighbors
 
-# Return sum of arguments => used for reduce call
+## Return sum of arguments
+##   => Just used for reduce call below
 func sum(accum: int, number: int) -> int:
     return accum + number
 
-# Return Number of "empty" neighbor tiles (NESW)
+## Return mumber of "empty" neighbor tiles (NESW)
 func count_open_neighbors(maze: Array, x: int, y: int) -> int:
     var neighbors = get_neighbors(maze, x, y)
 
     return 4 - neighbors.reduce(sum, 0)
 
-# Rotate a piece, return a copy
-func rotate_piece(piece: Array) -> Array:
+## Return a copy of a piece tile, randomly rotated.
+##   Note: A copy just to avoid modifying the original piece
+func rotated_piece(piece: Array) -> Array:
     var rotations = randi() % 4 # 0 .. 3
 
     # Clone the array to avoid modifying the original
@@ -231,7 +222,7 @@ func rotate_piece(piece: Array) -> Array:
 
     return rotated_piece
 
-# Rotate 90 degrees clockwise, in place
+## rotate a piece 90 degrees clockwise, in place
 func rotate_90_in_place(piece: Array) -> void:
     var size = piece.size()
 
@@ -246,7 +237,7 @@ func rotate_90_in_place(piece: Array) -> void:
     for y in range(size):
         piece[y].reverse()
 
-# Draw the maze to the TileMapLayer
+## Draw the maze to the TileMapLayer
 func render_maze(maze):
     for x in range(maze.size()):
         for y in range(maze[0].size()):
@@ -254,10 +245,25 @@ func render_maze(maze):
             if maze[x][y] == 1: # Wall
                 var neighbors: Array = get_neighbors(maze, x, y)
                 # Cast into a PackedByteArray so that hashes are guaranteed to be consistent.
-                # I'm not sure if this matters, but ChatGPT was being super uppity about it.
+                # I'm not sure if this matters in practice,
+                # but ChatGPT was being super uppity about it.
                 var tile: Dictionary = TILE_LOOKUP[hash(PackedByteArray(neighbors))]
                 var transform_flags = TILE_TRANSFORMS[tile["rotation"]]
 
-                set_cell(Vector2i(x, y), 0, tile["id"], transform_flags)
+                set_cell(Vector2i(x, y), 0, tile["atlas_id"], transform_flags)
             else: # Empty
                 set_cell(Vector2i(x, y), 0, Vector2i(1, 1))
+
+const ghost_start_box: Array = [
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 1, 1, 0, 1, 1, 0],
+    [0, 1, 0, 0, 0, 1, 0],
+    [0, 1, 1, 1, 1, 1, 0],
+    [0, 0, 0, 0, 0, 0, 0]
+]
+
+func place_ghost_start_box(maze: Array, loc: Vector2i):
+    for piece_x in range(ghost_start_box.size()):
+        for piece_y in range(ghost_start_box[0].size()):
+            var current: Vector2i = Vector2i(piece_y, piece_x) + loc
+            maze[current[0]][current[1]] = ghost_start_box[piece_x][piece_y]
