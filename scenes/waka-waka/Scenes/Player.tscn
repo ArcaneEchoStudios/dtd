@@ -125,7 +125,7 @@ animations = [{
 motion_mode = 1
 script = ExtResource("1_32x36")
 
-[node name="CollisionShape" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -1)
 shape = SubResource("CircleShape2D_o01su")
 

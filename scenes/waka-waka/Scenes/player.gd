@@ -28,7 +28,7 @@ func _physics_process(delta: float) -> void:
     if input_vector.length() > 0:
         input_vector = input_vector.normalized()
 
-    # Apply acceleration when input is given, decelerate otherwise
+    # Apply acceleration when input is given
     if input_vector != Vector2.ZERO:
         velocity = velocity.move_toward(input_vector * max_speed, acceleration * delta)
 
@@ -36,11 +36,10 @@ func _physics_process(delta: float) -> void:
             sprite.flip_h = true
         else:
             sprite.flip_h = false
-
         #if not sprite.is_playing() or sprite.animation == "idle":
             #sprite.play("float")
-    else:
-        velocity = velocity.move_toward(Vector2.ZERO, deceleration * delta)
+#    else:
+#        velocity = velocity.move_toward(Vector2.ZERO, deceleration * delta)
         #if sprite.animation != "idle" or sprite.is_playing():
             #sprite.play("idle")
 

@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=4 uid="uid://tnjwrwydx71v"]
+[gd_scene load_steps=6 format=3 uid="uid://tnjwrwydx71v"]
 
 [ext_resource type="PackedScene" uid="uid://c4ev5q5xc3lts" path="res://scenes/waka-waka/Scenes/Player.tscn" id="1_sl6g6"]
 [ext_resource type="Script" path="res://scenes/waka-waka/Scenes/main.gd" id="1_uigtq"]
 [ext_resource type="TileSet" uid="uid://2kbf0ykmvv3r" path="res://scenes/waka-waka/Assets/maze_spritemap.tres" id="2_5prns"]
 [ext_resource type="Script" path="res://scenes/waka-waka/Scenes/maze.gd" id="3_frwhm"]
+[ext_resource type="PackedScene" uid="uid://qbg28xhdk551" path="res://scenes/waka-waka/Scenes/waka.tscn" id="5_ui21t"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_uigtq")
@@ -13,8 +14,12 @@ script = ExtResource("1_uigtq")
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position_smoothing_enabled = true
 
-[node name="Maze" type="TileMapLayer" parent="."]
+[node name="WAKA" parent="." instance=ExtResource("5_ui21t")]
+position = Vector2(60, 61)
+
+[node name="MazeNavigaton" type="NavigationRegion2D" parent="."]
+
+[node name="Maze" type="TileMapLayer" parent="MazeNavigaton"]
 scale = Vector2(4, 4)
-tile_map_data = PackedByteArray("AAACAAUAAQAFAAAAAAADAAUAAQABAAAAAAAFAAUAAQABAAAAAAAHAAUAAQAHAAAAAAAHAAQAAQAEAAAAAAAJAAAAAQAEAAAAAAAHAAAAAQAHAAAAAAAGAAAAAQAHAAAAAAAMAAQAAQAEAAAAAAANAAQAAQABAAAAAAAOAAQAAQACAAAAAAAQAAIAAQAGAAAAAAAQAAEAAQADAAAAAAAKAAEAAQAAAAAAAAALAAEAAQAEAAAAAAANAAAAAQAGAAAAAAA=")
 tile_set = ExtResource("2_5prns")
 script = ExtResource("3_frwhm")
