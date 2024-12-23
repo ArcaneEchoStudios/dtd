@@ -1,8 +1,6 @@
 extends TileMapLayer
 
-@export var maze_size: int = 90
-
-var maze_data: Array = []
+@export var maze_size: int = 30
 
 const NORTH: Vector2i = Vector2i(0, -1)
 const EAST: Vector2i = Vector2i(1, 0)
@@ -104,10 +102,9 @@ var pieces: Dictionary = {
 
 # Print maze section (or entire maze) to console for debugging
 func pretty_print_maze_section(maze: Array, start_x: int = 0, start_y: int = 0, width: int = 0, height: int = 0) -> void:
-    # Loop through the specified section of the, or the entire, maze.
+    # Loop through the specified section of the maze, or the entire maze.
     if not width:
         width = maze.size()
-
     if not height:
         height = maze[0].size()
 
@@ -117,16 +114,34 @@ func pretty_print_maze_section(maze: Array, start_x: int = 0, start_y: int = 0, 
             row += "#" if maze[x][y] == 1 else " "
         print(row)
 
-## Godot lifecycle step:
-##   Maze is generated from randomly rotated "tiles"
 func _ready() -> void:
     pass
+
+func generate_navigation_polygon(callback) -> void:
+    var region = get_parent()
+
+    var poly = NavigationPolygon.new()
+    var height: int = int(maze_size * tile_set.tile_size.x * transform.get_scale().x)
+    var width: int = int(maze_size * tile_set.tile_size.y * transform.get_scale().x)
+
+    var bounding_outline = PackedVector2Array([
+        Vector2(0, 0),
+        Vector2(0, width),
+        Vector2(height, width),
+        Vector2(height, 0)])
+
+    poly.add_outline(bounding_outline)
+
+    region.navigation_polygon = poly
+    region.bake_navigation_polygon()
+    region.bake_finished.connect(callback)
 
 ## Create and return a new empty "section" of the maze of the given size
 #    This array is ready to pass to other functions
 func new_maze_section(size: int = maze_size) -> Array:
     var section = []
     section.resize(size)
+
     for x in range(size):
         section[x] = []
         section[x].resize(size)
@@ -214,13 +229,13 @@ func rotated_piece(piece: Array) -> Array:
     var rotations = randi() % 4 # 0 .. 3
 
     # Clone the array to avoid modifying the original
-    var rotated_piece: Array = piece.duplicate(true)
+    piece = piece.duplicate(true)
 
     # Rotate by 90 degrees for the appropriate number of times
     for i in range(rotations):
-        rotate_90_in_place(rotated_piece)
+        rotate_90_in_place(piece)
 
-    return rotated_piece
+    return piece
 
 ## rotate a piece 90 degrees clockwise, in place
 func rotate_90_in_place(piece: Array) -> void:
@@ -262,6 +277,8 @@ const ghost_start_box: Array = [
     [0, 0, 0, 0, 0, 0, 0]
 ]
 
+## Place a ghost start box at the specified location
+# FIXME: Make this generic to place any special pieces
 func place_ghost_start_box(maze: Array, loc: Vector2i):
     for piece_x in range(ghost_start_box.size()):
         for piece_y in range(ghost_start_box[0].size()):

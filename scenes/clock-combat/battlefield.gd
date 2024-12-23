@@ -132,6 +132,6 @@ func plan_enemies():
     CombatLog.add_log_entry("Enemies planning")
     for ch in enemies:
         plan_action(ch, "__random__")
-        
+
 func set_party(party: Party):
     self.party = party

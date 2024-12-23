@@ -1,0 +1,89 @@
+[gd_scene load_steps=13 format=3 uid="uid://qbg28xhdk551"]
+
+[ext_resource type="Script" path="res://scenes/waka-waka/Scenes/waka.gd" id="1_gya5n"]
+[ext_resource type="Texture2D" uid="uid://bnf8bfby48i4f" path="res://scenes/waka-waka/Assets/waka-waka-Sheet.png" id="1_tntob"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oogb7"]
+atlas = ExtResource("1_tntob")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dtj0g"]
+atlas = ExtResource("1_tntob")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k0ie3"]
+atlas = ExtResource("1_tntob")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_se8k6"]
+atlas = ExtResource("1_tntob")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_06osa"]
+atlas = ExtResource("1_tntob")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xd268"]
+atlas = ExtResource("1_tntob")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gpchj"]
+atlas = ExtResource("1_tntob")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sgu54"]
+atlas = ExtResource("1_tntob")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2wbw7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oogb7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dtj0g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k0ie3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_se8k6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_06osa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xd268")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gpchj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sgu54")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2hd83"]
+radius = 23.0
+
+[node name="WAKA" type="CharacterBody2D"]
+script = ExtResource("1_gya5n")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_2wbw7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_2hd83")
+
+[node name="Navigation" type="Node2D" parent="."]
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="Navigation"]
+
+[node name="NavTimer" type="Timer" parent="Navigation"]
+autostart = true
+
+[connection signal="timeout" from="Navigation/NavTimer" to="." method="_on_nav_timer_timeout"]

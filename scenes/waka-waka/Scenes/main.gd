@@ -1,11 +1,12 @@
 extends Node2D
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
     randomize()
 
-    var maze: TileMapLayer = get_node("Maze")
+    ## DEBUG
+    #NavigationServer3D.set_debug_enabled(true)
+
+    var maze: TileMapLayer = get_node("MazeNavigaton/Maze")
     var player: CharacterBody2D = get_node("Player")
 
     var section = maze.new_maze_section()
@@ -16,31 +17,37 @@ func _ready() -> void:
 
     maze.place_ghost_start_box(section, center - Vector2i(4, 3))
 
-    # DEBUG
-    maze.pretty_print_maze_section(section)
+    ## DEBUG
+    #maze.pretty_print_maze_section(section)
 
     maze.render_maze(section)
+
+    maze.generate_navigation_polygon(on_navigation_ready)
 
     var tile_size: Vector2i = maze.tile_set.tile_size
     var tilemap_scale: Vector2 = maze.transform.get_scale()
 
-    print("Positioning player at ({0}, {1})".format([center[0], center[1]]))
+    ## DEBUG
+    #print("Positioning player at ({0}, {1})".format([center[0], center[1]]))
+
     position_player_at(
         player,
         center[0] * tile_size[0] * tilemap_scale[0] - 32,
         center[1] * tile_size[1] * tilemap_scale[1] - 32)
 
+## Drop the player at the specified position
 func position_player_at(player, x, y):
     var player_position = Vector2(x, y)
 
     var camera = player.get_node("Camera2D")
 
-    # Move the player
     player.global_position = player_position
 
-    # Don't smoothly slide camera to new location
     camera.reset_smoothing()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-    pass
+## When navigation is ready, have the waka target the player and drop it in the maze
+func on_navigation_ready():
+    var waka: CharacterBody2D = get_node("WAKA")
+    waka.ghost = get_node("Player")
+
+    waka.global_position = Vector2(128, 128)
