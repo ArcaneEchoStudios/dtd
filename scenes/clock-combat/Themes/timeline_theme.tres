@@ -1,0 +1,28 @@
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://dt845fgltc5lx"]
+
+[ext_resource type="Texture2D" uid="uid://cejw0h465cyui" path="res://scenes/clock-combat/Assets/scroll-export.png" id="1_ss3wv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tmtik"]
+bg_color = Color(0.882353, 0.717647, 0.545098, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_r0m2x"]
+texture = ExtResource("1_ss3wv")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+
+[resource]
+Label/colors/font_color = Color(0, 0, 0, 1)
+Label/styles/normal = SubResource("StyleBoxFlat_tmtik")
+LabelNecro/base_type = &"Label"
+LabelNecro/colors/font_color = Color(1, 0, 1, 1)
+LabelRogue/base_type = &"Label"
+LabelRogue/colors/font_color = Color(0, 1, 0, 1)
+LabelWarrior/base_type = &"Label"
+LabelWarrior/colors/font_color = Color(1, 0, 0, 1)
+LabelWizard/base_type = &"Label"
+LabelWizard/colors/font_color = Color(0, 0, 1, 1)
+LabelZombie/base_type = &"Label"
+LabelZombie/colors/font_color = Color(0.129412, 0.129412, 0.129412, 1)
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_r0m2x")
