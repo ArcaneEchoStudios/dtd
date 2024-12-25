@@ -1,5 +1,5 @@
 
-extends Resource 
+extends Resource
 class_name Const
 
 const CLASSES = {
