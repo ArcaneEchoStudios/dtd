@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=4 uid="uid://cw8htvnl8pdpg"]
+[gd_scene load_steps=9 format=4 uid="uid://cw8htvnl8pdpg"]
 
 [ext_resource type="Texture2D" uid="uid://clfk2l4ltedi3" path="res://scenes/zombi-runner/Assets/cave.png" id="1_4ebx4"]
 [ext_resource type="Texture2D" uid="uid://dygd6t84s2m6d" path="res://scenes/zombi-runner/Assets/zombi_runner-Sheet.png" id="2_a7qg8"]
@@ -11,6 +11,11 @@ texture_region_size = Vector2i(128, 128)
 [sub_resource type="TileSet" id="TileSet_e753m"]
 tile_size = Vector2i(128, 128)
 sources/0 = SubResource("TileSetAtlasSource_bewd0")
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lanuc"]
+rough = true
+bounce = 1.0
+absorbent = true
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_r5j4g"]
 vertices = PackedVector2Array(16, 16, -16, 16, -16, -16, 16, -16)
@@ -34,6 +39,7 @@ texture_region_size = Vector2i(32, 32)
 [sub_resource type="TileSet" id="TileSet_s3bsb"]
 tile_size = Vector2i(32, 32)
 physics_layer_0/collision_layer = 1
+physics_layer_0/physics_material = SubResource("PhysicsMaterial_lanuc")
 physics_layer_1/collision_layer = 4
 physics_layer_1/collision_mask = 0
 navigation_layer_0/layers = 1

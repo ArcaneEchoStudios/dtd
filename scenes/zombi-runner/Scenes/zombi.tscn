@@ -379,33 +379,39 @@ collision_mask = 9
 script = ExtResource("2_l8a08")
 ai_state = 0
 
+[node name="CollisionShape2D" parent="." index="0"]
+metadata/_edit_lock_ = true
+
+[node name="LadderChecker" parent="." index="1"]
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" parent="LadderChecker" index="0"]
+metadata/_edit_lock_ = true
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="2"]
 z_index = 2
 sprite_frames = SubResource("SpriteFrames_ebu3j")
-animation = &"falling"
+animation = &"running"
 metadata/_edit_lock_ = true
 
 [node name="LookRight" type="RayCast2D" parent="." index="3"]
+position = Vector2(0, -5)
 target_position = Vector2(240, 0)
 collision_mask = 3
 metadata/_edit_lock_ = true
 
-[node name="LookRight2" type="RayCast2D" parent="." index="4"]
-target_position = Vector2(240, 0)
-collision_mask = 3
-metadata/_edit_lock_ = true
-
-[node name="LookLeft" type="RayCast2D" parent="." index="5"]
+[node name="LookLeft" type="RayCast2D" parent="." index="4"]
+position = Vector2(0, -5)
 target_position = Vector2(-240, 0)
 collision_mask = 3
 metadata/_edit_lock_ = true
 
-[node name="LookUp" type="RayCast2D" parent="." index="6"]
+[node name="LookUp" type="RayCast2D" parent="." index="5"]
 target_position = Vector2(0, -240)
 collision_mask = 3
 metadata/_edit_lock_ = true
 
-[node name="LookDown" type="RayCast2D" parent="." index="7"]
+[node name="LookDown" type="RayCast2D" parent="." index="6"]
 target_position = Vector2(0, -240)
 collision_mask = 3
 metadata/_edit_lock_ = true

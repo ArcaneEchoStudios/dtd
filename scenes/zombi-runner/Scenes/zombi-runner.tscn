@@ -261,7 +261,6 @@ script = ExtResource("1_74ud6")
 [node name="Runner" parent="." instance=ExtResource("1_eikix")]
 position = Vector2(402, 925)
 script = ExtResource("4_cd2xa")
-gravity_enabled = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Runner"]
 z_index = 2

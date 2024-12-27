@@ -22,7 +22,7 @@ func find_portal_tiles() -> Array:
         var tile_data: TileData = terrain.get_cell_tile_data(cell)
         if tile_data:
             if tile_data.get_custom_data("SpecialZone") == "portal":
-                print(str(cell) + ": " + str(tile_data.get_custom_data("SpecialZone")))
+                #print(str(cell) + ": " + str(tile_data.get_custom_data("SpecialZone")))
                 portal_tiles.append(cell)
 
     return portal_tiles
@@ -33,9 +33,9 @@ func spawn_zombie() -> void:
 
     add_child(zombi)
     zombi.position = terrain.map_to_local(portal)
-    zombi.gravity_enabled = true
 
     zombis.append(zombi)
 
 func _on_zombi_spawn_timer_timeout() -> void:
-    spawn_zombie()
+    pass
+    #spawn_zombie()
