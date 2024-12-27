@@ -38,6 +38,9 @@ func look_around():
 func get_input() -> Vector2:
     match ai_state:
         AIState.WANDERING:
+            if is_on_wall() and get_wall_normal().x == ai_direction.x * -1 and randf() < .01:
+                print("Wander => Stuck on awall, turning around.")
+                ai_direction.x *= -1
             if ai_direction.y == 0 and touching_ladder and randf() < .001:
                 # If not already climbing a ladder, and touching one:
                 # Medium chance to try to climb in one direction or the other
@@ -97,12 +100,24 @@ func change_state(new_state: CharacterState) -> void:
     if new_state == old_state:
         return super(new_state)
 
-    if new_state == CharacterState.STANDING:
-        change_ai_state(AIState.WANDERING)
-    if new_state == CharacterState.CLIMBING:
-        # When the zombi starts climbing, stop trying to move horizontally
-        ai_direction.x = 0
-    if new_state == CharacterState.FALLING:
-        change_ai_state(AIState.WANDERING)
+    match new_state:
+        CharacterState.STANDING:
+            # If we're just standing around, start wandering
+            # FIXME: Not sure if correct
+            #change_ai_state(AIState.WANDERING)
+            pass
+        CharacterState.CLIMBING:
+            # When the zombi starts climbing, stop trying to move horizontally
+            ai_direction.x = 0
+        CharacterState.RUNNING:
+            if ai_state != AIState.CHASING:
+                # Zombi only run when chasing
+                return super(old_state)
+        CharacterState.FALLING:
+            # If we start falling, lose track of player
+            # FIXME: Also not sure if correct
+            #change_ai_state(AIState.WANDERING)
+            pass
+
 
     return super(new_state)

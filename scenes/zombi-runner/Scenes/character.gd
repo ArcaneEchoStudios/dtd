@@ -97,7 +97,6 @@ func _physics_process(delta: float) -> void:
     else:
         sprite.flip_h = false
 
-
     move_and_slide()
 
 func change_state(new_state: CharacterState) -> void:
