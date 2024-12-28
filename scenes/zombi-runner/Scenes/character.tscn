@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://cyymowrt1aom4"]
+[gd_scene load_steps=5 format=3 uid="uid://cyymowrt1aom4"]
 
 [ext_resource type="Script" path="res://scenes/zombi-runner/Scenes/character.gd" id="1_dkh1g"]
 
@@ -6,6 +6,9 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lb750"]
 size = Vector2(16, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t26jr"]
+size = Vector2(20, 30)
 
 [node name="Character" type="CharacterBody2D"]
 position = Vector2(128, 128)
@@ -22,5 +25,11 @@ collision_mask = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LadderChecker"]
 shape = SubResource("RectangleShape2D_lb750")
 
+[node name="CharacterChecker" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterChecker"]
+shape = SubResource("RectangleShape2D_t26jr")
+
 [connection signal="body_entered" from="LadderChecker" to="." method="_on_ladder_checker_body_entered"]
 [connection signal="body_exited" from="LadderChecker" to="." method="_on_ladder_checker_body_exited"]
+[connection signal="area_entered" from="CharacterChecker" to="." method="_on_character_checker_area_entered"]

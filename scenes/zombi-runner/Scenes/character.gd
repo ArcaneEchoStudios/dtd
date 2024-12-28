@@ -5,7 +5,11 @@ enum CharacterState {
     WALKING,
     RUNNING,
     CLIMBING,
-    FALLING
+    FALLING,
+    DYING,               # Runner only
+    FEEDING,             # Zombi only
+    TRANSFORMING_LADDER, # Zombi only
+    TRANSFORMING_WALL    # Zombi only
 }
 
 @export var touching_ladder: bool = false
@@ -69,7 +73,7 @@ func _physics_process(delta: float) -> void:
 
     match state:
         CharacterState.STANDING:
-            velocity = velocity.move_toward(Vector2(0, fall_speed), accel * delta * 10)
+            velocity = velocity.move_toward(Vector2(0, fall_speed), accel * delta * 8)
 
         CharacterState.WALKING:
             velocity = velocity.move_toward(Vector2(input_vector.x * walk_speed, fall_speed), accel * delta)
@@ -89,8 +93,26 @@ func _physics_process(delta: float) -> void:
 
             if input_vector.y > 0 and is_on_floor(): # drop through the floor when climbing down a ladder
                 position.y += climb_speed * delta
+
         CharacterState.FALLING:
-            velocity = velocity.move_toward(Vector2(0, fall_speed), accel * delta)
+            velocity = velocity.move_toward(Vector2(0, fall_speed), accel * delta * 4)
+
+        CharacterState.DYING:
+            velocity = velocity.move_toward(Vector2(0, fall_speed), accel * delta * 8)
+
+        #CharacterState.DEAD:
+            #velocity = velocity.move_toward(Vector2(0, fall_speed), accel * delta * 8)
+#
+        CharacterState.FEEDING:
+            velocity = velocity.move_toward(Vector2(0, fall_speed), accel * delta * 8)
+
+        CharacterState.TRANSFORMING_WALL:
+            # FIXME: Make this "move toward final wall spot"
+            velocity = velocity.move_toward(Vector2(0, fall_speed), accel * delta * 8)
+
+        CharacterState.TRANSFORMING_LADDER:
+            # FIXME: Make this "move toward final ladder spot"
+            velocity = velocity.move_toward(Vector2(0, fall_speed), accel * delta * 8)
 
     if velocity.x < 0.0:
         sprite.flip_h = true
@@ -123,6 +145,18 @@ func change_state(new_state: CharacterState) -> void:
         CharacterState.FALLING:
             sprite.play("falling")
 
+        CharacterState.DYING:
+            sprite.play("dying")
+
+        CharacterState.FEEDING:
+            sprite.play("feeding")
+
+        CharacterState.TRANSFORMING_LADDER:
+            sprite.play("transforming_ladder")
+
+        CharacterState.TRANSFORMING_WALL:
+            sprite.play("transforming_wall")
+
     state = new_state
 
     return
@@ -134,7 +168,7 @@ func _on_ladder_checker_body_exited(_body: Node2D) -> void:
     touching_ladder = false
 
 func get_input() -> Vector2:
-    var input_vector = Vector2(Input.get_axis("player_left_a", "player_right_a"),
-            Input.get_axis("player_up_a", "player_down_a"))
+    return Vector2.ZERO
 
-    return input_vector.normalized()
+func _on_character_checker_area_entered(area: Area2D) -> void:
+    pass

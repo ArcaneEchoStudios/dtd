@@ -50,11 +50,11 @@ func get_input() -> Vector2:
                 ## Very low chance of switching climb direction
                 #print("Wander => Switching climb dir")
                 #ai_direction += Vector2(0, -ai_direction.y)
-            elif ai_direction.x != 0 and randf() < .0002:
+            elif ai_direction.x != 0 and randf() < .00001:
                 # very low chance of turning around mid-shamble
                 print("Wander => Switching shamble dir")
                 ai_direction = Vector2(-ai_direction.x, 0)
-            elif ai_direction.x == 0.0 and randf():
+            elif ai_direction.x == 0.0 and randf() < .0002:
                 print("Wander => Shambling")
                 ai_direction = Vector2([-1, 1].pick_random(), 0)
             elif randf() < 0.05:
@@ -119,5 +119,14 @@ func change_state(new_state: CharacterState) -> void:
             #change_ai_state(AIState.WANDERING)
             pass
 
-
     return super(new_state)
+
+func feed() -> void:
+    state = CharacterState.FEEDING
+    # FIXME: aistate?
+
+#FIXME: Use masks!
+func _on_character_checker_area_entered(area: Area2D) -> void:
+    if area.get_parent() is RunnerClass:
+        print("FEED!")
+        #feed()

@@ -37,5 +37,4 @@ func spawn_zombie() -> void:
     zombis.append(zombi)
 
 func _on_zombi_spawn_timer_timeout() -> void:
-    pass
-    #spawn_zombie()
+    spawn_zombie()
