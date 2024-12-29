@@ -1,6 +1,8 @@
-extends "res://scenes/zombi-runner/Scenes/character.gd"
+extends CharacterBase
 
-const RunnerClass = preload("res://scenes/zombi-runner/Scenes/runner.gd")
+class_name Zombi
+
+#const RunnerClass = preload("res://scenes/zombi-runner/Scenes/runner.gd")
 
 @onready var look_right: RayCast2D = get_node("LookRight")
 @onready var look_left: RayCast2D = get_node("LookLeft")
@@ -28,7 +30,7 @@ func look_around():
             var collision_point = dir.get_collision_point()
 
             # Prefer the runner as target
-            if dir.get_collider() is RunnerClass:
+            if dir.get_collider() is Runner:
                 target = dir
             elif not target:
                 target = dir
@@ -60,7 +62,7 @@ func get_input() -> Vector2:
             elif randf() < 0.05:
                 # Low chance to look around
                 var target = look_around()
-                if target and target.get_collider() is RunnerClass:
+                if target and target.get_collider() is Runner:
                     print("Wander => CHASING PLAYER")
                     change_ai_state(AIState.CHASING, target)
 
@@ -68,7 +70,7 @@ func get_input() -> Vector2:
             # Low chance of checking for target every frame
             if randf() < 0.001:
                 var target = look_around()
-                if target and target.get_collider() is RunnerClass:
+                if target and target.get_collider() is Runner:
                     print("CHASING => still see player!")
                     # Still see them, maybe update position
                     change_ai_state(AIState.CHASING, target)
@@ -127,6 +129,6 @@ func feed() -> void:
 
 #FIXME: Use masks!
 func _on_character_checker_area_entered(area: Area2D) -> void:
-    if area.get_parent() is RunnerClass:
+    if area.get_parent() is Runner:
         print("FEED!")
         #feed()

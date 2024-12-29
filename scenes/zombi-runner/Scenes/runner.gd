@@ -1,6 +1,8 @@
-extends "res://scenes/zombi-runner/Scenes/character.gd"
+extends CharacterBase
 
-const ZombiClass = preload("res://scenes/zombi-runner/Scenes/zombi.gd")
+class_name Runner
+
+#const ZombiClass = preload("res://scenes/zombi-runner/Scenes/zombi.gd")
 
 func get_input() -> Vector2:
     if state == CharacterState.DYING:
@@ -16,6 +18,6 @@ func get_eaten() -> void:
     return
 
 func _on_character_checker_area_entered(area: Area2D) -> void:
-    if area.get_parent() is ZombiClass:
+    if area.get_parent() is Zombi:
         print("GETTING EATEN!")
         #get_eaten()

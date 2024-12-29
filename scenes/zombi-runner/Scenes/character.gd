@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+class_name CharacterBase
+
 enum CharacterState {
     STANDING,
     WALKING,
