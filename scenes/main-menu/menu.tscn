@@ -19,6 +19,13 @@ offset_right = 50.0
 offset_bottom = 100.0
 text = "WAKA WAKA WAKA"
 
+[node name="ZombiRunner" type="Button" parent="."]
+offset_left = 50.0
+offset_top = 150.0
+offset_right = 50.0
+offset_bottom = 100.0
+text = "Zombi Runner"
+
 [node name="Exit" type="Button" parent="."]
 offset_left = 50.0
 offset_top = 800.0

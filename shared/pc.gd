@@ -1,4 +1,4 @@
-extends Resource 
+extends Resource
 class_name PC
 
 # Properties
@@ -16,8 +16,8 @@ var stuff: Array[String] = []
 var status: Array[String] = []
 var pc_class: String = "commoner"
 
-# Aesthetics 
-var name: String 
+# Aesthetics
+var name: String
 var color: Color
 
 # Constructor

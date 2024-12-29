@@ -13,9 +13,9 @@ var party: Party
 var scenes = {
     "clock-combat": preload("res://scenes/clock-combat/combat.tscn"),
     "waka-waka": preload("res://scenes/waka-waka/Scenes/main.tscn"),
+    "zombi-runner": preload("res://scenes/zombi-runner/Scenes/zombi-runner.tscn"),
     "menu": preload("res://scenes/main-menu/menu.tscn"),
 }
-
 
 func _ready() -> void:
     # TODO: Load this from a save file in some way shape or form
