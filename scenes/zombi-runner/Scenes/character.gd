@@ -15,6 +15,8 @@ enum CharacterState {
 }
 
 @export var touching_ladder: bool = false
+
+## FIXME: Use getter/setter for this so change_state is always called!
 @export var state: CharacterState = CharacterState.STANDING
 
 @export var accel: float = 2000.0
@@ -129,6 +131,11 @@ func change_state(new_state: CharacterState) -> void:
     if new_state == old_state:
         return
 
+    if old_state == CharacterState.DYING:
+        # Some things you never come back from. Like...death!
+        # FIXME: This should really be handled by a game_over()
+        return
+
     match new_state:
         CharacterState.STANDING:
             sprite.play("standing")
@@ -151,6 +158,7 @@ func change_state(new_state: CharacterState) -> void:
             sprite.play("dying")
 
         CharacterState.FEEDING:
+            print("FEEDING?!")
             sprite.play("feeding")
 
         CharacterState.TRANSFORMING_LADDER:

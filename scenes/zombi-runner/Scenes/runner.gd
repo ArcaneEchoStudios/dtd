@@ -14,10 +14,11 @@ func get_input() -> Vector2:
     return input_vector.normalized()
 
 func get_eaten() -> void:
-    state = CharacterState.DYING
+    change_state(CharacterState.DYING)
+
     return
 
 func _on_character_checker_area_entered(area: Area2D) -> void:
     if area.get_parent() is Zombi:
         print("GETTING EATEN!")
-        #get_eaten()
+        get_eaten()
