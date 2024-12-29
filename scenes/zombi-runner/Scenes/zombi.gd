@@ -2,95 +2,94 @@ extends CharacterBase
 
 class_name Zombi
 
-#const RunnerClass = preload("res://scenes/zombi-runner/Scenes/runner.gd")
+@onready var look: RayCast2D = get_node("Look")
+@onready var ai_timer: Timer = get_node("AITimer")
 
-@onready var look_right: RayCast2D = get_node("LookRight")
-@onready var look_left: RayCast2D = get_node("LookLeft")
-@onready var look_up: RayCast2D = get_node("LookUp")
-@onready var look_down: RayCast2D = get_node("LookDown")
-
-@onready var look_dirs: Array = [look_right, look_left, look_up, look_down]
+const LOOK_DISTANCE = 250 # 250 pixel vision range
 
 enum AIState {
     WANDERING,
-    CHASING
+    CHASING,
+    FEEDING
 }
 
 @export var ai_state: AIState = AIState.WANDERING
 var ai_direction: Vector2 = Vector2.ZERO
+var runner: Runner = null
 
-func look_around():
-    var dirs_copy = look_dirs.duplicate();
-    dirs_copy.shuffle()
+func _ready() -> void:
+    runner = get_parent().get_node("Runner")
+    assert(runner is Runner, "Could not find Runner!")
 
-    var target
+func look_for_runner() -> void:
+    var dir: Vector2 = runner.global_position - global_position
+    dir = dir.normalized()
+    look.target_position = dir * LOOK_DISTANCE
 
-    for dir in dirs_copy:
-        if dir.is_colliding():
-            var collision_point = dir.get_collision_point()
+    if look.is_colliding():
+        if look.get_collider() is Runner:
+            chase(runner)
+        else:
+            print("Vision blocked")
+    else:
+        print("Out of range")
 
-            # Prefer the runner as target
-            if dir.get_collider() is Runner:
-                target = dir
-            elif not target:
-                target = dir
+    wander(runner)
 
-    return target
+    return
 
-func get_input() -> Vector2:
+func chase(target) -> void:
+    return change_ai_state(AIState.CHASING, target)
+
+func wander(target: Node2D) -> void:
+    return change_ai_state(AIState.WANDERING, target)
+
+func decide_what_to_do() -> void:
+    # FIXME: This should only be triggered by timer timeout?
+
+    look_for_runner() # Chase runner if visible, wander toward them if not
+
     match ai_state:
         AIState.WANDERING:
-            if is_on_wall() and get_wall_normal().x == ai_direction.x * -1 and randf() < .01:
-                print("Wander => Stuck on awall, turning around.")
+            # FIXME: Some sort of navigation logic goes here
+            if is_on_wall() and get_wall_normal().x == ai_direction.x * -1:
+                print("Wander => Stuck on a wall, turning around.")
                 ai_direction.x *= -1
-            if ai_direction.y == 0 and touching_ladder and randf() < .001:
-                # If not already climbing a ladder, and touching one:
-                # Medium chance to try to climb in one direction or the other
-                print("Wander => Climbing ladder")
-                ai_direction = Vector2(0, [-1, 1].pick_random())
-            #elif ai_direction.y != 0 and touching_ladder and randf() < .00001:
-                ## Very low chance of switching climb direction
-                #print("Wander => Switching climb dir")
-                #ai_direction += Vector2(0, -ai_direction.y)
-            elif ai_direction.x != 0 and randf() < .00001:
-                # very low chance of turning around mid-shamble
-                print("Wander => Switching shamble dir")
-                ai_direction = Vector2(-ai_direction.x, 0)
-            elif ai_direction.x == 0.0 and randf() < .0002:
-                print("Wander => Shambling")
-                ai_direction = Vector2([-1, 1].pick_random(), 0)
-            elif randf() < 0.05:
-                # Low chance to look around
-                var target = look_around()
-                if target and target.get_collider() is Runner:
-                    print("Wander => CHASING PLAYER")
-                    change_ai_state(AIState.CHASING, target)
+                # FIXME: Set a long timer for this?
 
         AIState.CHASING:
-            # Low chance of checking for target every frame
-            if randf() < 0.001:
-                var target = look_around()
-                if target and target.get_collider() is Runner:
-                    print("CHASING => still see player!")
-                    # Still see them, maybe update position
-                    change_ai_state(AIState.CHASING, target)
-                else:
-                    print("CHASING => lost target")
-                    change_ai_state(AIState.WANDERING)
+            pass
+            #FIXME: Some sort of navigation logic goes here
 
-    ai_direction = ai_direction.normalized()
+        AIState.FEEDING:
+            # Go back to wandering when done with meal
+            change_ai_state(AIState.WANDERING)
 
-    return ai_direction
+func get_input() -> Vector2:
+    return ai_direction.normalized() # Really I just want this to always be normalized, FIXME: better way?
 
-func change_ai_state(new_ai_state: AIState, target: RayCast2D = null) -> void:
+func change_ai_state(new_ai_state: AIState, target: Node2D = null) -> void:
     var old_state: AIState = ai_state
 
     match new_ai_state:
         AIState.WANDERING:
-            ai_direction = Vector2.ZERO
+            if target:
+                ai_direction = (target.global_position - global_position).normalized()
+            else:
+                ai_direction = Vector2.ZERO
+            change_state(CharacterState.WALKING)
 
         AIState.CHASING:
-            ai_direction = (target.get_collision_point() - global_position).normalized()
+            if target:
+                ai_direction = (target.global_position - global_position).normalized()
+            else:
+                ai_direction = Vector2.ZERO
+
+            change_state(CharacterState.RUNNING)
+
+        AIState.FEEDING:
+            ai_direction = Vector2.ZERO
+            change_state(CharacterState.FEEDING)
 
     ai_state = new_ai_state
 
@@ -102,33 +101,39 @@ func change_state(new_state: CharacterState) -> void:
     if new_state == old_state:
         return super(new_state)
 
+    if old_state == CharacterState.FEEDING:
+        # Only let the AI timer return from feeding, so the sequence plays out
+        return
+
     match new_state:
         CharacterState.STANDING:
-            # If we're just standing around, start wandering
-            # FIXME: Not sure if correct
-            #change_ai_state(AIState.WANDERING)
-            pass
+            change_ai_state(AIState.WANDERING)
         CharacterState.CLIMBING:
-            # When the zombi starts climbing, stop trying to move horizontally
-            ai_direction.x = 0
+            pass
+            # FIXME: Not sure if correct: When the zombi starts climbing, stop trying to move horizontally
+            #ai_direction.x = 0
         CharacterState.RUNNING:
             if ai_state != AIState.CHASING:
+                #FIXME: Better to prevent this?
+                print("Zombi attempting to run when not chasing")
                 # Zombi only run when chasing
                 return super(old_state)
         CharacterState.FALLING:
             # If we start falling, lose track of player
             # FIXME: Also not sure if correct
-            #change_ai_state(AIState.WANDERING)
-            pass
+            change_ai_state(AIState.WANDERING)
 
     return super(new_state)
 
 func feed() -> void:
-    state = CharacterState.FEEDING
-    # FIXME: aistate?
+    change_ai_state(AIState.FEEDING)
 
 #FIXME: Use masks!
 func _on_character_checker_area_entered(area: Area2D) -> void:
     if area.get_parent() is Runner:
         print("FEED!")
-        #feed()
+        feed()
+
+func _on_ai_timer_timeout() -> void:
+    ai_timer.start(2.0)
+    decide_what_to_do()
