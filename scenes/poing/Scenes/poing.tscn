@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://dsq10is8plmi2"]
+
+[ext_resource type="PackedScene" uid="uid://t2ubfekjrrep" path="res://scenes/poing/Scenes/level.tscn" id="1_ackde"]
+[ext_resource type="PackedScene" uid="uid://pf02wcbkmmti" path="res://scenes/poing/Scenes/paddle.tscn" id="2_32h57"]
+[ext_resource type="PackedScene" uid="uid://c75f7p05xmouy" path="res://scenes/poing/Scenes/ball.tscn" id="2_lesvg"]
+
+[node name="Poing" type="Node2D"]
+
+[node name="Level" parent="." instance=ExtResource("1_ackde")]
+
+[node name="Ball" parent="." instance=ExtResource("2_lesvg")]
+position = Vector2(505, 511)
+
+[node name="PlayerRight" parent="." instance=ExtResource("2_32h57")]
+position = Vector2(989, 546)
+
+[node name="PlayerLeft" parent="." instance=ExtResource("2_32h57")]
+position = Vector2(27, 535)

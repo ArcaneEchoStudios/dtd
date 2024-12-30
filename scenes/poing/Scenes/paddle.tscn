@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://pf02wcbkmmti"]
+
+[ext_resource type="Texture2D" uid="uid://cfe43xfatiere" path="res://scenes/poing/Assets/Poing.png" id="1_v32g7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lxaic"]
+atlas = ExtResource("1_v32g7")
+region = Rect2(0, 32, 32, 96)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1euxp"]
+height = 96.0
+
+[node name="Paddle" type="CharacterBody2D"]
+motion_mode = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_lxaic")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_1euxp")

@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://c75f7p05xmouy"]
+
+[ext_resource type="Texture2D" uid="uid://cfe43xfatiere" path="res://scenes/poing/Assets/Poing.png" id="1_cuca4"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_cg87i"]
+bounce = 1.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tcgpw"]
+atlas = ExtResource("1_cuca4")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ripdb"]
+radius = 17.0294
+
+[node name="Ball" type="RigidBody2D"]
+physics_material_override = SubResource("PhysicsMaterial_cg87i")
+gravity_scale = 0.0
+lock_rotation = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_tcgpw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ripdb")
