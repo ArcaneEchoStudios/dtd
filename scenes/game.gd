@@ -14,6 +14,7 @@ var scenes = {
     "clock-combat": preload("res://scenes/clock-combat/combat.tscn"),
     "waka-waka": preload("res://scenes/waka-waka/Scenes/main.tscn"),
     "zombi-runner": preload("res://scenes/zombi-runner/Scenes/zombi-runner.tscn"),
+    "poing": preload("res://scenes/poing/Scenes/poing.tscn"),
     "menu": preload("res://scenes/main-menu/menu.tscn"),
 }
 
