@@ -1,0 +1,643 @@
+[gd_scene load_steps=7 format=3 uid="uid://d11a41lj3jplb"]
+
+[ext_resource type="Theme" uid="uid://dt845fgltc5lx" path="res://scenes/clock-combat/Themes/timeline_theme.tres" id="1_sbxtd"]
+[ext_resource type="Texture2D" uid="uid://blp614hd7x1kr" path="res://scenes/clock-combat/Assets/warrior.png" id="2_c88jw"]
+[ext_resource type="Texture2D" uid="uid://b47p7opwt8dl" path="res://scenes/clock-combat/Assets/wizard.png" id="3_jtebq"]
+[ext_resource type="Texture2D" uid="uid://ug60hgwjodgg" path="res://scenes/clock-combat/Assets/rogue.png" id="4_kspe2"]
+[ext_resource type="Texture2D" uid="uid://xi6eiurjp3jd" path="res://scenes/clock-combat/Assets/necro.png" id="5_p84bp"]
+[ext_resource type="Texture2D" uid="uid://btokbv12g3yxb" path="res://scenes/clock-combat/Assets/zombie.png" id="6_gjnhc"]
+
+[node name="Timeline" type="CanvasLayer"]
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_preset = -1
+anchor_left = 0.05
+anchor_top = 1.0
+anchor_right = 0.95
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("1_sbxtd")
+
+[node name="WarriorLine" type="Line2D" parent="PanelContainer"]
+visible = false
+points = PackedVector2Array(355.8, 39, 540.8, 41, 734.8, 40)
+default_color = Color(0.996078, 0.0235294, 0.0156863, 1)
+
+[node name="RogueLine" type="Line2D" parent="PanelContainer"]
+visible = false
+points = PackedVector2Array(187.8, 37, 331.8, 116, 431.8, 70, 604.8, 41, 690.8, 40)
+default_color = Color(0.054902, 0.952941, 0.027451, 1)
+
+[node name="WizardLine" type="Line2D" parent="PanelContainer"]
+visible = false
+points = PackedVector2Array(456.8, 37, 734.8, 79)
+default_color = Color(0.0156863, 0.0117647, 0.992157, 1)
+
+[node name="NecroLine" type="Line2D" parent="PanelContainer"]
+visible = false
+points = PackedVector2Array(337.8, 73, 614.8, 77, 730.8, 113)
+default_color = Color(0.992157, 0.0509804, 0.968627, 1)
+
+[node name="ZombieLine" type="Line2D" parent="PanelContainer"]
+visible = false
+points = PackedVector2Array(184.8, 75, 258.8, 36, 330.8, 149, 429.8, 111, 524.8, 73, 605.8, 115, 685.8, 73, 732.8, 142)
+default_color = Color(0.145098, 0.141176, 0.137255, 1)
+
+[node name="Sections" type="HBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="Actors" type="VBoxContainer" parent="PanelContainer/Sections"]
+layout_mode = 2
+
+[node name="Warrior" type="HBoxContainer" parent="PanelContainer/Sections/Actors"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Actors/Warrior"]
+layout_mode = 2
+theme_type_variation = &"LabelWarrior"
+text = "Warrior
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Actors/Warrior"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_c88jw")
+
+[node name="Wizard" type="HBoxContainer" parent="PanelContainer/Sections/Actors"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Actors/Wizard"]
+layout_mode = 2
+theme_type_variation = &"LabelWizard"
+text = "Wizard"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Actors/Wizard"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("3_jtebq")
+
+[node name="Rogue" type="HBoxContainer" parent="PanelContainer/Sections/Actors"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Actors/Rogue"]
+layout_mode = 2
+theme_type_variation = &"LabelRogue"
+text = "Rogue	"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Actors/Rogue"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("4_kspe2")
+
+[node name="Necro" type="HBoxContainer" parent="PanelContainer/Sections/Actors"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Actors/Necro"]
+layout_mode = 2
+theme_type_variation = &"LabelNecro"
+text = "Necro"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Actors/Necro"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("5_p84bp")
+
+[node name="Zombie" type="HBoxContainer" parent="PanelContainer/Sections/Actors"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Actors/Zombie"]
+layout_mode = 2
+theme_type_variation = &"LabelZombie"
+text = "Zombie
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Actors/Zombie"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("6_gjnhc")
+
+[node name="VSeparator" type="VSeparator" parent="PanelContainer/Sections"]
+layout_mode = 2
+
+[node name="Rounds" type="HBoxContainer" parent="PanelContainer/Sections"]
+layout_mode = 2
+
+[node name="Round1" type="CenterContainer" parent="PanelContainer/Sections/Rounds"]
+layout_mode = 2
+
+[node name="Steps" type="VBoxContainer" parent="PanelContainer/Sections/Rounds/Round1"]
+layout_mode = 2
+
+[node name="Rogue" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round1/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round1/Steps/Rogue"]
+layout_mode = 2
+text = "Hide"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round1/Steps/Rogue"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("4_kspe2")
+
+[node name="Zombie" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round1/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round1/Steps/Zombie"]
+layout_mode = 2
+text = "Bite
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round1/Steps/Zombie"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("6_gjnhc")
+
+[node name="Warrior" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round1/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round1/Steps/Warrior"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round1/Steps/Warrior"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Wizard" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round1/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round1/Steps/Wizard"]
+layout_mode = 2
+theme_type_variation = &"LabelWizard"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round1/Steps/Wizard"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Necro" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round1/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round1/Steps/Necro"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round1/Steps/Necro"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Round2" type="CenterContainer" parent="PanelContainer/Sections/Rounds"]
+layout_mode = 2
+
+[node name="Steps" type="VBoxContainer" parent="PanelContainer/Sections/Rounds/Round2"]
+layout_mode = 2
+
+[node name="Zombie" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round2/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round2/Steps/Zombie"]
+layout_mode = 2
+text = "Bite
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round2/Steps/Zombie"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("6_gjnhc")
+
+[node name="Rogue" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round2/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round2/Steps/Rogue"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round2/Steps/Rogue"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Warrior" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round2/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round2/Steps/Warrior"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round2/Steps/Warrior"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Wizard" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round2/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round2/Steps/Wizard"]
+layout_mode = 2
+theme_type_variation = &"LabelWizard"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round2/Steps/Wizard"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Necro" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round2/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round2/Steps/Necro"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round2/Steps/Necro"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Round3" type="CenterContainer" parent="PanelContainer/Sections/Rounds"]
+layout_mode = 2
+
+[node name="Steps" type="VBoxContainer" parent="PanelContainer/Sections/Rounds/Round3"]
+layout_mode = 2
+
+[node name="Warrior" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round3/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round3/Steps/Warrior"]
+layout_mode = 2
+text = "Charge"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round3/Steps/Warrior"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_c88jw")
+
+[node name="Necro" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round3/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round3/Steps/Necro"]
+layout_mode = 2
+text = "Raise"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round3/Steps/Necro"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("5_p84bp")
+
+[node name="Rogue" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round3/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round3/Steps/Rogue"]
+layout_mode = 2
+text = "Stab"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round3/Steps/Rogue"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("4_kspe2")
+
+[node name="Zombie" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round3/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round3/Steps/Zombie"]
+layout_mode = 2
+text = "Bite
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round3/Steps/Zombie"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("6_gjnhc")
+
+[node name="Wizard" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round3/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round3/Steps/Wizard"]
+layout_mode = 2
+theme_type_variation = &"LabelWizard"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round3/Steps/Wizard"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Round4" type="CenterContainer" parent="PanelContainer/Sections/Rounds"]
+layout_mode = 2
+
+[node name="Steps" type="VBoxContainer" parent="PanelContainer/Sections/Rounds/Round4"]
+layout_mode = 2
+
+[node name="Wizard" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round4/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round4/Steps/Wizard"]
+layout_mode = 2
+text = "Fireball"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round4/Steps/Wizard"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("3_jtebq")
+
+[node name="Rogue" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round4/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round4/Steps/Rogue"]
+layout_mode = 2
+text = "Hide"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round4/Steps/Rogue"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("4_kspe2")
+
+[node name="Zombie" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round4/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round4/Steps/Zombie"]
+layout_mode = 2
+text = "Bite
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round4/Steps/Zombie"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("6_gjnhc")
+
+[node name="Warrior" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round4/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round4/Steps/Warrior"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round4/Steps/Warrior"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Necro" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round4/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round4/Steps/Necro"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round4/Steps/Necro"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Round5" type="CenterContainer" parent="PanelContainer/Sections/Rounds"]
+layout_mode = 2
+
+[node name="Steps" type="VBoxContainer" parent="PanelContainer/Sections/Rounds/Round5"]
+layout_mode = 2
+
+[node name="Warrior" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round5/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round5/Steps/Warrior"]
+layout_mode = 2
+text = "Block"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round5/Steps/Warrior"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_c88jw")
+
+[node name="Zombie" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round5/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round5/Steps/Zombie"]
+layout_mode = 2
+text = "Bite
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round5/Steps/Zombie"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("6_gjnhc")
+
+[node name="Wizard" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round5/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round5/Steps/Wizard"]
+layout_mode = 2
+theme_type_variation = &"LabelWizard"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round5/Steps/Wizard"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Rogue" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round5/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round5/Steps/Rogue"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round5/Steps/Rogue"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Necro" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round5/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round5/Steps/Necro"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round5/Steps/Necro"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Round6" type="CenterContainer" parent="PanelContainer/Sections/Rounds"]
+layout_mode = 2
+
+[node name="Steps" type="VBoxContainer" parent="PanelContainer/Sections/Rounds/Round6"]
+layout_mode = 2
+
+[node name="Rogue" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round6/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round6/Steps/Rogue"]
+layout_mode = 2
+text = "Stab"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round6/Steps/Rogue"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("4_kspe2")
+
+[node name="Necro" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round6/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round6/Steps/Necro"]
+layout_mode = 2
+text = "Raise"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round6/Steps/Necro"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("5_p84bp")
+
+[node name="Zombie" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round6/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round6/Steps/Zombie"]
+layout_mode = 2
+text = "Bite
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round6/Steps/Zombie"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("6_gjnhc")
+
+[node name="Warrior" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round6/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round6/Steps/Warrior"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round6/Steps/Warrior"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Wizard" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round6/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round6/Steps/Wizard"]
+layout_mode = 2
+theme_type_variation = &"LabelWizard"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round6/Steps/Wizard"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Round7" type="CenterContainer" parent="PanelContainer/Sections/Rounds"]
+layout_mode = 2
+
+[node name="Steps" type="VBoxContainer" parent="PanelContainer/Sections/Rounds/Round7"]
+layout_mode = 2
+
+[node name="Rogue" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round7/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round7/Steps/Rogue"]
+layout_mode = 2
+text = "Hide"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round7/Steps/Rogue"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("4_kspe2")
+
+[node name="Zombie" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round7/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round7/Steps/Zombie"]
+layout_mode = 2
+text = "Bite
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round7/Steps/Zombie"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("6_gjnhc")
+
+[node name="Warrior" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round7/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round7/Steps/Warrior"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round7/Steps/Warrior"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Wizard" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round7/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round7/Steps/Wizard"]
+layout_mode = 2
+theme_type_variation = &"LabelWizard"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round7/Steps/Wizard"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Necro" type="HBoxContainer" parent="PanelContainer/Sections/Rounds/Round7/Steps"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/Rounds/Round7/Steps/Necro"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Sections/Rounds/Round7/Steps/Necro"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
