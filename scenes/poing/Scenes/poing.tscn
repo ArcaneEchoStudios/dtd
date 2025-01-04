@@ -1,20 +1,42 @@
-[gd_scene load_steps=5 format=3 uid="uid://dsq10is8plmi2"]
+[gd_scene load_steps=4 format=3 uid="uid://dsq10is8plmi2"]
 
 [ext_resource type="PackedScene" uid="uid://t2ubfekjrrep" path="res://scenes/poing/Scenes/level.tscn" id="1_ackde"]
 [ext_resource type="Script" path="res://scenes/poing/Scenes/poing.gd" id="1_aot4d"]
 [ext_resource type="PackedScene" uid="uid://pf02wcbkmmti" path="res://scenes/poing/Scenes/paddle.tscn" id="2_32h57"]
-[ext_resource type="PackedScene" uid="uid://c75f7p05xmouy" path="res://scenes/poing/Scenes/ball.tscn" id="2_lesvg"]
 
 [node name="Poing" type="Node2D"]
 script = ExtResource("1_aot4d")
 
 [node name="Level" parent="." instance=ExtResource("1_ackde")]
 
-[node name="Ball" parent="." instance=ExtResource("2_lesvg")]
-position = Vector2(505, 511)
-
 [node name="PlayerRight" parent="." instance=ExtResource("2_32h57")]
 position = Vector2(989, 546)
 
 [node name="PlayerLeft" parent="." instance=ExtResource("2_32h57")]
 position = Vector2(27, 535)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="RoundStartTimer" type="PanelContainer" parent="HUD"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="HUD/RoundStartTimer"]
+layout_mode = 2
+vertical_alignment = 1
+
+[node name="Timer" type="Timer" parent="HUD/RoundStartTimer"]
+wait_time = 0.333
+autostart = true
+
+[connection signal="timeout" from="HUD/RoundStartTimer/Timer" to="." method="_on_timer_timeout"]
