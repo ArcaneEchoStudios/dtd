@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://scenes/poing/Scenes/ball.gd" id="1_wbilb"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_cg87i"]
+friction = 0.0
 bounce = 1.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tcgpw"]
