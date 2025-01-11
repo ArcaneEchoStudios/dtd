@@ -1,8 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://dsq10is8plmi2"]
+[gd_scene load_steps=6 format=3 uid="uid://dsq10is8plmi2"]
 
 [ext_resource type="PackedScene" uid="uid://t2ubfekjrrep" path="res://scenes/poing/Scenes/level.tscn" id="1_ackde"]
 [ext_resource type="Script" path="res://scenes/poing/Scenes/poing.gd" id="1_aot4d"]
 [ext_resource type="PackedScene" uid="uid://pf02wcbkmmti" path="res://scenes/poing/Scenes/paddle.tscn" id="2_32h57"]
+
+[sub_resource type="SystemFont" id="SystemFont_76beo"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_56tbg"]
+font = SubResource("SystemFont_76beo")
+font_size = 32
 
 [node name="Poing" type="Node2D"]
 script = ExtResource("1_aot4d")
@@ -33,10 +39,18 @@ grow_vertical = 2
 
 [node name="Label" type="Label" parent="HUD/RoundStartTimer"]
 layout_mode = 2
+label_settings = SubResource("LabelSettings_56tbg")
 vertical_alignment = 1
 
 [node name="Timer" type="Timer" parent="HUD/RoundStartTimer"]
 wait_time = 0.333
 autostart = true
+
+[node name="ScoreBoard" type="PanelContainer" parent="HUD"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HSplitContainer" type="HSplitContainer" parent="HUD/ScoreBoard"]
+layout_mode = 2
 
 [connection signal="timeout" from="HUD/RoundStartTimer/Timer" to="." method="_on_timer_timeout"]
