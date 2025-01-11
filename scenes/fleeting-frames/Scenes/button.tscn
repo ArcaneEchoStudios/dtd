@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://bgkmg3c7qs6sm"]
+
+[ext_resource type="Texture2D" uid="uid://ddqbjwbv5n15r" path="res://scenes/fleeting-frames/Assets/Fruit.png" id="1_4xnso"]
+[ext_resource type="Script" path="res://scenes/fleeting-frames/Scenes/button.gd" id="2_4lbtb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n5mrk"]
+atlas = ExtResource("1_4xnso")
+region = Rect2(0, 0, 16, 16)
+
+[node name="Button" type="Button"]
+size_flags_horizontal = 3
+size_flags_vertical = 3
+icon = SubResource("AtlasTexture_n5mrk")
+icon_alignment = 1
+script = ExtResource("2_4lbtb")
