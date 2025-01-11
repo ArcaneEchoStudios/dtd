@@ -9,7 +9,7 @@ class_name FleetingFrames
 
 const ButtonScene: PackedScene = preload("res://scenes/fleeting-frames/Scenes/button.tscn")
 
-const FRUITS: Array =  [
+var FRUITS: Array =  [
     "Zelqua",
     "Mirala",
     "Xynum",
