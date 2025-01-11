@@ -1,7 +1,11 @@
 extends Node2D
 
+class_name FleetingFrames
+
 @onready var button_container: GridContainer = get_node("UI/ButtonContainer")
 @onready var fruit_name_label: Label = get_node("UI/Prompt/FruitName")
+
+@export var sprite_animation: SpriteFrames
 
 const ButtonScene: PackedScene = preload("res://scenes/fleeting-frames/Scenes/button.tscn")
 
@@ -28,22 +32,42 @@ const FRUITS: Array =  [
 var fruits: Array = Array(FRUITS)
 var target_fruit: String
 
+var round_score: int = 0
+
 func _ready() -> void:
     fruits.shuffle()
     target_fruit = fruits.pick_random()
 
     start_round()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
     pass
 
-func _on_button_pressed(button) -> void:
+func _on_button_pressed(button: Button) -> void:
     print(button.fruit_name)
 
+    var success: bool = false
+    if button.fruit_name == target_fruit:
+        success = true
+
+    var animated_sprite = AnimatedSprite2D.new()
+    animated_sprite.frames = sprite_animation
+    animated_sprite.animation = "check" if success else "X"
+    animated_sprite.play()
+
+    # Add the AnimatedSprite2D as a child of the button
+    button.add_child(animated_sprite)
+
+    # Center the AnimatedSprite2D on the button
+    animated_sprite.position = button.get_size() / 2
+    button.disabled = true
+
+    update_score(success)
+
 func start_round() -> void:
-    for node in button_container.get_children():
-        button_container.remove_child(node)
-        node.queue_free()
+    for button in button_container.get_children():
+        button_container.remove_child(button)
+        button.queue_free()
 
     for i in range(16):
         var button = ButtonScene.instantiate()
@@ -55,3 +79,22 @@ func start_round() -> void:
         button_container.add_child(button)
 
     fruit_name_label.text = target_fruit
+
+func update_score(success: bool) -> void:
+    # play sound
+
+    if success:
+        round_score += 1
+    else:
+        round_score = -1000 # One wrong move
+
+func _on_submit_pressed() -> void:
+    var target_count: int = 0
+    for button in button_container.get_children():
+        if button.fruit_name == target_fruit:
+            target_count += 1
+
+    if target_count == round_score:
+        print("Win")
+    else:
+        print("Loss")
