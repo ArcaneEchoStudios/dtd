@@ -8,6 +8,8 @@ func _ready() -> void:
     $WakaWaka.connect("pressed", Callable(self, "_on_waka"))
     $ZombiRunner.connect("pressed", Callable(self, "_on_zombi_runner"))
     $Poing.connect("pressed", Callable(self, "_on_poing"))
+    $FleetingFrames.connect("pressed", Callable(self, "_on_fleeting_frames"))
+
     $Exit.connect("pressed", Callable(self, "_on_exit"))
 
 func _on_start_combat():
@@ -21,6 +23,9 @@ func _on_zombi_runner():
 
 func _on_poing():
     scene_change.emit('poing')
+
+func _on_fleeting_frames():
+    scene_change.emit('fleeting-frames')
 
 func _on_exit():
     get_tree().quit()

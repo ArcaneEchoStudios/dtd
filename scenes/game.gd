@@ -15,6 +15,7 @@ var scenes = {
     "waka-waka": preload("res://scenes/waka-waka/Scenes/main.tscn"),
     "zombi-runner": preload("res://scenes/zombi-runner/Scenes/zombi-runner.tscn"),
     "poing": preload("res://scenes/poing/Scenes/poing.tscn"),
+    "fleeting-frames": preload("res://scenes/fleeting-frames/Scenes/fleeting_frames.tscn"),
     "menu": preload("res://scenes/main-menu/menu.tscn"),
 }
 
