@@ -1,17 +1,32 @@
-extends CenterContainer
+extends Control
 
 class_name FleetingFrames
 
-@onready var button_container: GridContainer = get_node("UI/ButtonContainer")
+@onready var ui_control: Control = get_node("UI")
+
+@onready var button_container: GridContainer = get_node("UI/Game/ButtonContainer")
 @onready var fruit_name_label: Label = get_node("UI/Prompt/FruitName")
-@onready var submit_button: Button = get_node("UI/Control/Submit")
-@onready var score_label: Label = get_node("UI/Control/RewardCoin/Score")
-@onready var round_timer_label: Label = get_node("UI/Control/RoundTimer")
+@onready var submit_button: Button = get_node("UI/Game/Control/Submit")
+@onready var score_label: Label = get_node("UI/Game/Control/RewardCoin/Score")
+@onready var round_timer_label: Label = get_node("UI/Game/Control/RoundTimer")
+@onready var cover_panel: PanelContainer = get_node("CoverPanel")
+@onready var game_ui: VBoxContainer = get_node("UI/Game")
+
+@onready var sfx_correct: AudioStreamPlayer2D = get_node("SFX/correct")
+@onready var sfx_incorrect: AudioStreamPlayer2D = get_node("SFX/incorrect")
+
+@onready var sfx_pass: AudioStreamPlayer2D = get_node("SFX/pass")
+@onready var sfx_fail: AudioStreamPlayer2D = get_node("SFX/fail")
+
+@onready var sfx_select_all: AudioStreamPlayer2D = get_node("SFX/select_all")
+
+@onready var sfx_fruit_names: Dictionary = {}
 
 # Animations for checkmark, X, et. al.
 @export var sprite_animation: SpriteFrames
 
 const ButtonScene: PackedScene = preload("res://scenes/fleeting-frames/Scenes/button.tscn")
+const main_theme: Theme = preload("res://scenes/fleeting-frames/Themes/Main.tres")
 
 var FRUITS: Array =  [
     "Zelqua",
@@ -51,35 +66,57 @@ var SUBMIT_MESSAGES: Array =  [
     "APPROVE"
 ]
 
-# FRUITS in random order per-game
+# fruits is FRUITS in a random order per-game
 var fruits: Array = Array(FRUITS)
 var target_fruit: String
 
-# How far into the list of fruits do we delve for this round?
+# How far into the list of fruits do we delve for the current round?
 # eg, start with just four choices, expand as the player "learns".
 var fruits_extent: int = 4
 
 var game_score: int = 0
 var round_score: int = 0
 
+# Fudge factor for timers, varies every round
+var timer_factor: float = 1.0
+
 var round_timer_running: bool = false
 var round_timer: float = 0.0
-var round_timer_factor: float = 1.0
+
+var start_timer_running: bool = false
+var start_timer: float = 0.0
 
 func _ready() -> void:
+    for fruit in FRUITS:
+        print("Adding %s" % fruit)
+        sfx_fruit_names[fruit] = get_node("SFX/%s" % fruit)
+
     randomize()
     fruits.shuffle()
 
-    start_round()
+    setup_round()
 
 func _process(delta: float) -> void:
-    if round_timer_running:
-        round_timer -= delta * round_timer_factor
+    if start_timer_running:
+        start_timer -= delta * timer_factor
+        cover_panel.get_node("Label").text = "%d" % [int(start_timer)]
 
-    if round_timer < 0:
-        end_round()
+        if start_timer < 1:
+            start_round()
 
-    round_timer_label.text = "%1.2f" % [round_timer]
+    elif round_timer_running:
+        round_timer -= delta * timer_factor
+        round_timer_label.text = "%1.2f" % [round_timer]
+
+        if round_timer < 0:
+            setup_round()
+    else:
+        start_timer_running = true
+        start_timer = 4
+
+        cover_panel.global_position = game_ui.global_position
+        cover_panel.set_size(game_ui.size)
+        cover_panel.visible = true
 
 func _on_fruit_button_pressed(button: Button) -> void:
     print(button.fruit_name)
@@ -102,8 +139,7 @@ func _on_fruit_button_pressed(button: Button) -> void:
 
     update_score(success)
 
-func start_round() -> void:
-    print(fruits_extent)
+func setup_round() -> void:
     # Each round, only give #fruits_extent options to choose from.
     var current_round_fruits = fruits.slice(0, fruits_extent)
 
@@ -151,23 +187,28 @@ func start_round() -> void:
 
     score_label.text = str(game_score)
 
+    round_timer_running = false
+
+    sfx_select_all.play()
+
+func start_round() -> void:
+    cover_panel.visible = false
+
+    start_timer_running = false
     round_timer_running = true
     round_timer = 5.0
 
     # Each round, the timer runs up to 15% slower or faster. <3
-    round_timer_factor = 0.85 + randf() * (0.3)
-
-func end_round() -> void:
-    round_timer_running = false
-
-    start_round()
+    timer_factor = 0.85 + randf() * (0.3)
 
 func update_score(success: bool) -> void:
     # play sound
 
     if success:
+        sfx_correct.play()
         round_score += 1
     else:
+        sfx_incorrect.play()
         round_score = -1000 # One wrong move...
 
 func _on_submit_pressed() -> void:
@@ -177,12 +218,17 @@ func _on_submit_pressed() -> void:
             target_count += 1
 
     if target_count == round_score:
-        print("Win")
+        sfx_pass.play()
+
         game_score += 1
 
         if fruits_extent < fruits.size():
             fruits_extent += 1
     else:
-        print("Loss")
+        sfx_fail.play()
 
-    end_round()
+    setup_round()
+
+func _on_select_all_finished() -> void:
+    print("Trying %s" % target_fruit)
+    sfx_fruit_names[target_fruit].play()

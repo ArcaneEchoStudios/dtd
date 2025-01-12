@@ -1,7 +1,28 @@
-[gd_scene load_steps=29 format=3 uid="uid://8va7hs5jdas4"]
+[gd_scene load_steps=53 format=3 uid="uid://8va7hs5jdas4"]
 
 [ext_resource type="Script" path="res://scenes/fleeting-frames/Scenes/fleeting_frames.gd" id="1_kgds4"]
 [ext_resource type="Texture2D" uid="uid://jga2m7lfbj1j" path="res://scenes/fleeting-frames/Assets/animations-Sheet.png" id="2_1kun4"]
+[ext_resource type="AudioStream" uid="uid://dtdhtpx2bm7pg" path="res://scenes/fleeting-frames/Assets/check.mp3" id="3_0isyf"]
+[ext_resource type="AudioStream" uid="uid://lh5gmywbbekv" path="res://scenes/fleeting-frames/Assets/X.mp3" id="4_j6bpd"]
+[ext_resource type="AudioStream" uid="uid://p3yf7xyvcl46" path="res://scenes/fleeting-frames/Assets/pass.mp3" id="5_ucwnr"]
+[ext_resource type="AudioStream" uid="uid://c4uour2sujv1c" path="res://scenes/fleeting-frames/Assets/fail.mp3" id="6_qe87f"]
+[ext_resource type="AudioStream" uid="uid://fd1kvg78p2ql" path="res://scenes/fleeting-frames/Assets/select_all.mp3" id="7_dw4ij"]
+[ext_resource type="AudioStream" uid="uid://lakpjsu53g4d" path="res://scenes/fleeting-frames/Assets/zelqua.mp3" id="8_pt483"]
+[ext_resource type="AudioStream" uid="uid://dcl2brldn8623" path="res://scenes/fleeting-frames/Assets/mirala.mp3" id="9_lkjhf"]
+[ext_resource type="AudioStream" uid="uid://6px6f56h3qoy" path="res://scenes/fleeting-frames/Assets/xynum.mp3" id="10_3xt2l"]
+[ext_resource type="AudioStream" uid="uid://boi17ta2nyh0u" path="res://scenes/fleeting-frames/Assets/velkin.mp3" id="11_3pquj"]
+[ext_resource type="AudioStream" uid="uid://dkv85g56im6s6" path="res://scenes/fleeting-frames/Assets/trivon.mp3" id="12_lke2b"]
+[ext_resource type="AudioStream" uid="uid://1vq4y5bounjt" path="res://scenes/fleeting-frames/Assets/clorun.mp3" id="13_dnb3j"]
+[ext_resource type="AudioStream" uid="uid://b377peub16c3s" path="res://scenes/fleeting-frames/Assets/felyra.mp3" id="14_3ea0u"]
+[ext_resource type="AudioStream" uid="uid://drnpwh4gm5383" path="res://scenes/fleeting-frames/Assets/glintan.mp3" id="15_5anna"]
+[ext_resource type="AudioStream" uid="uid://dk42sl6lpi1na" path="res://scenes/fleeting-frames/Assets/solara.mp3" id="16_b5xu1"]
+[ext_resource type="AudioStream" uid="uid://b4bpragy8fd8t" path="res://scenes/fleeting-frames/Assets/quenith.mp3" id="17_w6vlf"]
+[ext_resource type="AudioStream" uid="uid://ud0j0757mk35" path="res://scenes/fleeting-frames/Assets/rylath.mp3" id="18_1cu6l"]
+[ext_resource type="AudioStream" uid="uid://bhb7ovxgb3c4n" path="res://scenes/fleeting-frames/Assets/obris.mp3" id="19_trmx2"]
+[ext_resource type="AudioStream" uid="uid://d1e6nwmkj4fke" path="res://scenes/fleeting-frames/Assets/kynor.mp3" id="20_ni4yf"]
+[ext_resource type="AudioStream" uid="uid://c04w11j8w5llf" path="res://scenes/fleeting-frames/Assets/tavix.mp3" id="21_awh8b"]
+[ext_resource type="AudioStream" uid="uid://cichprm7uukwc" path="res://scenes/fleeting-frames/Assets/orintha.mp3" id="22_0wudp"]
+[ext_resource type="AudioStream" uid="uid://d125ha4ff03ww" path="res://scenes/fleeting-frames/Assets/lymar.mp3" id="23_qsmhu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_85qho"]
 atlas = ExtResource("2_1kun4")
@@ -150,16 +171,30 @@ font = SubResource("SystemFont_syvxg")
 font_size = 48
 font_color = Color(1, 0.552941, 0.666667, 1)
 
-[node name="fleeting-frames" type="CenterContainer"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6e3ki"]
+bg_color = Color(0.133333, 0.133333, 0.133333, 1)
+
+[sub_resource type="SystemFont" id="SystemFont_mqiqh"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_t6dmh"]
+font = SubResource("SystemFont_mqiqh")
+font_size = 64
+font_color = Color(1, 0.101961, 0.133333, 1)
+
+[node name="fleeting-frames" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 offset_left = 217.0
 offset_top = 251.0
-offset_right = 217.0
-offset_bottom = 251.0
+offset_right = 572.0
+offset_bottom = 422.0
 script = ExtResource("1_kgds4")
 sprite_animation = SubResource("SpriteFrames_4ia88")
 
 [node name="UI" type="VBoxContainer" parent="."]
 layout_mode = 2
+offset_right = 355.0
+offset_bottom = 171.0
 
 [node name="Prompt" type="HBoxContainer" parent="UI"]
 layout_mode = 2
@@ -176,20 +211,24 @@ layout_mode = 2
 label_settings = SubResource("LabelSettings_n2cst")
 vertical_alignment = 1
 
-[node name="ButtonContainer" type="GridContainer" parent="UI"]
+[node name="Game" type="VBoxContainer" parent="UI"]
+layout_mode = 2
+
+[node name="ButtonContainer" type="GridContainer" parent="UI/Game"]
+custom_minimum_size = Vector2(480, 480)
 layout_mode = 2
 columns = 4
 
-[node name="Control" type="HBoxContainer" parent="UI"]
+[node name="Control" type="HBoxContainer" parent="UI/Game"]
 layout_mode = 2
 
-[node name="RewardCoin" type="TextureRect" parent="UI/Control"]
+[node name="RewardCoin" type="TextureRect" parent="UI/Game/Control"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
 texture = SubResource("AtlasTexture_tk8g8")
 
-[node name="Score" type="Label" parent="UI/Control/RewardCoin"]
+[node name="Score" type="Label" parent="UI/Game/Control/RewardCoin"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -201,13 +240,13 @@ label_settings = SubResource("LabelSettings_2ktr5")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Submit" type="Button" parent="UI/Control"]
+[node name="Submit" type="Button" parent="UI/Game/Control"]
 layout_mode = 2
 size_flags_horizontal = 6
 theme = SubResource("Theme_hiay6")
 text = "SUBMIT"
 
-[node name="RoundTimer" type="Label" parent="UI/Control"]
+[node name="RoundTimer" type="Label" parent="UI/Game/Control"]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "0:00"
@@ -215,4 +254,123 @@ label_settings = SubResource("LabelSettings_rplui")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="pressed" from="UI/Control/Submit" to="." method="_on_submit_pressed"]
+[node name="CoverPanel" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 88.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_6e3ki")
+
+[node name="Label" type="Label" parent="CoverPanel"]
+layout_mode = 2
+size_flags_horizontal = 4
+label_settings = SubResource("LabelSettings_t6dmh")
+
+[node name="SFX" type="Node" parent="."]
+
+[node name="correct" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(217, 251)
+stream = ExtResource("3_0isyf")
+
+[node name="incorrect" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(217, 251)
+stream = ExtResource("4_j6bpd")
+bus = &"SFX"
+
+[node name="pass" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(217, 251)
+stream = ExtResource("5_ucwnr")
+bus = &"SFX"
+
+[node name="fail" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(217, 251)
+stream = ExtResource("6_qe87f")
+bus = &"SFX"
+
+[node name="select_all" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(217, 251)
+stream = ExtResource("7_dw4ij")
+bus = &"SFX"
+
+[node name="Zelqua" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(217, 251)
+stream = ExtResource("8_pt483")
+bus = &"SFX"
+
+[node name="Mirala" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(217, 251)
+stream = ExtResource("9_lkjhf")
+bus = &"SFX"
+
+[node name="Xynum" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(217, 251)
+stream = ExtResource("10_3xt2l")
+bus = &"SFX"
+
+[node name="Velkin" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(217, 251)
+stream = ExtResource("11_3pquj")
+bus = &"SFX"
+
+[node name="Trivon" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(217, 251)
+stream = ExtResource("12_lke2b")
+bus = &"SFX"
+
+[node name="Clorun" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(217, 251)
+stream = ExtResource("13_dnb3j")
+bus = &"SFX"
+
+[node name="Felyra" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(217, 251)
+stream = ExtResource("14_3ea0u")
+bus = &"SFX"
+
+[node name="Glintan" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(217, 251)
+stream = ExtResource("15_5anna")
+bus = &"SFX"
+
+[node name="Sorala" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(217, 251)
+stream = ExtResource("16_b5xu1")
+bus = &"SFX"
+
+[node name="Quenith" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(217, 251)
+stream = ExtResource("17_w6vlf")
+bus = &"SFX"
+
+[node name="Rylath" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(217, 251)
+stream = ExtResource("18_1cu6l")
+bus = &"SFX"
+
+[node name="Obris" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(217, 251)
+stream = ExtResource("19_trmx2")
+bus = &"SFX"
+
+[node name="Kynor" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(217, 251)
+stream = ExtResource("20_ni4yf")
+bus = &"SFX"
+
+[node name="Tavix" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(217, 251)
+stream = ExtResource("21_awh8b")
+bus = &"SFX"
+
+[node name="Orintha" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(217, 251)
+stream = ExtResource("22_0wudp")
+bus = &"SFX"
+
+[node name="Lymar" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(217, 251)
+stream = ExtResource("23_qsmhu")
+bus = &"SFX"
+
+[connection signal="pressed" from="UI/Game/Control/Submit" to="." method="_on_submit_pressed"]
+[connection signal="finished" from="SFX/select_all" to="." method="_on_select_all_finished"]
