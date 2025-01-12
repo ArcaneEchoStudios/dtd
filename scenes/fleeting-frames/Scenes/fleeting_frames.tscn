@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://8va7hs5jdas4"]
+[gd_scene load_steps=29 format=3 uid="uid://8va7hs5jdas4"]
 
 [ext_resource type="Script" path="res://scenes/fleeting-frames/Scenes/fleeting_frames.gd" id="1_kgds4"]
 [ext_resource type="Texture2D" uid="uid://jga2m7lfbj1j" path="res://scenes/fleeting-frames/Assets/animations-Sheet.png" id="2_1kun4"]
@@ -126,14 +126,40 @@ font_size = 64
 font = SubResource("SystemFont_fhrf3")
 font_size = 64
 
-[node name="fleeting-frames" type="Node2D"]
-position = Vector2(217, 251)
+[sub_resource type="AtlasTexture" id="AtlasTexture_tk8g8"]
+atlas = ExtResource("2_1kun4")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="SystemFont" id="SystemFont_15p4j"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_2ktr5"]
+font = SubResource("SystemFont_15p4j")
+font_size = 24
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="SystemFont" id="SystemFont_4xyf1"]
+
+[sub_resource type="Theme" id="Theme_hiay6"]
+default_font = SubResource("SystemFont_4xyf1")
+default_font_size = 48
+
+[sub_resource type="SystemFont" id="SystemFont_syvxg"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_rplui"]
+font = SubResource("SystemFont_syvxg")
+font_size = 48
+font_color = Color(1, 0.552941, 0.666667, 1)
+
+[node name="fleeting-frames" type="CenterContainer"]
+offset_left = 217.0
+offset_top = 251.0
+offset_right = 217.0
+offset_bottom = 251.0
 script = ExtResource("1_kgds4")
 sprite_animation = SubResource("SpriteFrames_4ia88")
 
 [node name="UI" type="VBoxContainer" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 2
 
 [node name="Prompt" type="HBoxContainer" parent="UI"]
 layout_mode = 2
@@ -154,8 +180,39 @@ vertical_alignment = 1
 layout_mode = 2
 columns = 4
 
-[node name="Submit" type="Button" parent="UI"]
+[node name="Control" type="HBoxContainer" parent="UI"]
 layout_mode = 2
+
+[node name="RewardCoin" type="TextureRect" parent="UI/Control"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_tk8g8")
+
+[node name="Score" type="Label" parent="UI/Control/RewardCoin"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "0"
+label_settings = SubResource("LabelSettings_2ktr5")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Submit" type="Button" parent="UI/Control"]
+layout_mode = 2
+size_flags_horizontal = 6
+theme = SubResource("Theme_hiay6")
 text = "SUBMIT"
 
-[connection signal="pressed" from="UI/Submit" to="." method="_on_submit_pressed"]
+[node name="RoundTimer" type="Label" parent="UI/Control"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "0:00"
+label_settings = SubResource("LabelSettings_rplui")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="UI/Control/Submit" to="." method="_on_submit_pressed"]
