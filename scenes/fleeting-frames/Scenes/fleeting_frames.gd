@@ -28,7 +28,7 @@ class_name FleetingFrames
 const ButtonScene: PackedScene = preload("res://scenes/fleeting-frames/Scenes/button.tscn")
 const main_theme: Theme = preload("res://scenes/fleeting-frames/Themes/Main.tres")
 
-var FRUITS: Array =  [
+const FRUITS: Array =  [
     "Zelqua",
     "Mirala",
     "Xynum",
@@ -67,7 +67,7 @@ var SUBMIT_MESSAGES: Array =  [
 ]
 
 # fruits is FRUITS in a random order per-game
-var fruits: Array = Array(FRUITS)
+var fruits: Array = FRUITS.duplicate()
 var target_fruit: String
 
 # How far into the list of fruits do we delve for the current round?
@@ -88,10 +88,10 @@ var start_timer: float = 0.0
 
 func _ready() -> void:
     for fruit in FRUITS:
-        print("Adding %s" % fruit)
         sfx_fruit_names[fruit] = get_node("SFX/%s" % fruit)
 
     randomize()
+
     fruits.shuffle()
 
     setup_round()
@@ -109,6 +109,8 @@ func _process(delta: float) -> void:
         round_timer_label.text = "%1.2f" % [round_timer]
 
         if round_timer < 0:
+            sfx_fail.play()
+
             setup_round()
     else:
         start_timer_running = true
@@ -119,9 +121,8 @@ func _process(delta: float) -> void:
         cover_panel.visible = true
 
 func _on_fruit_button_pressed(button: Button) -> void:
-    print(button.fruit_name)
-
     var success: bool = false
+
     if button.fruit_name == target_fruit:
         success = true
 
@@ -164,7 +165,7 @@ func setup_round() -> void:
             # Calculate location on sprite sheet to select fruit from,
             # then pick the name of the fruit in a way that's "stable" per game.
             loc = Vector2i(randi() % 4, randi() % 4)
-            fruit = fruits[loc[0] * 4 | loc[1]]
+            fruit = FRUITS[loc[0] * 4 | loc[1]]
 
             # Now, if we picked a fruit that isn't in the current round, the while loop repeats.
             #
@@ -230,5 +231,4 @@ func _on_submit_pressed() -> void:
     setup_round()
 
 func _on_select_all_finished() -> void:
-    print("Trying %s" % target_fruit)
     sfx_fruit_names[target_fruit].play()
