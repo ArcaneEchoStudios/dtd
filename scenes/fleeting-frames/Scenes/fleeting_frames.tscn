@@ -1,6 +1,7 @@
-[gd_scene load_steps=53 format=3 uid="uid://8va7hs5jdas4"]
+[gd_scene load_steps=54 format=3 uid="uid://8va7hs5jdas4"]
 
 [ext_resource type="Script" path="res://scenes/fleeting-frames/Scenes/fleeting_frames.gd" id="1_kgds4"]
+[ext_resource type="Theme" uid="uid://ci38f8qh1gopp" path="res://scenes/fleeting-frames/Themes/Main.tres" id="1_nf413"]
 [ext_resource type="Texture2D" uid="uid://jga2m7lfbj1j" path="res://scenes/fleeting-frames/Assets/animations-Sheet.png" id="2_1kun4"]
 [ext_resource type="AudioStream" uid="uid://dtdhtpx2bm7pg" path="res://scenes/fleeting-frames/Assets/check.mp3" id="3_0isyf"]
 [ext_resource type="AudioStream" uid="uid://lh5gmywbbekv" path="res://scenes/fleeting-frames/Assets/X.mp3" id="4_j6bpd"]
@@ -188,6 +189,7 @@ offset_left = 217.0
 offset_top = 251.0
 offset_right = 572.0
 offset_bottom = 422.0
+theme = ExtResource("1_nf413")
 script = ExtResource("1_kgds4")
 sprite_animation = SubResource("SpriteFrames_4ia88")
 
