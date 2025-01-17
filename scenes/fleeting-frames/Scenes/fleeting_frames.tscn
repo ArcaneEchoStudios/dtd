@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://8va7hs5jdas4"]
+[gd_scene load_steps=52 format=3 uid="uid://8va7hs5jdas4"]
 
 [ext_resource type="Script" path="res://scenes/fleeting-frames/Scenes/fleeting_frames.gd" id="1_kgds4"]
 [ext_resource type="Theme" uid="uid://ci38f8qh1gopp" path="res://scenes/fleeting-frames/Themes/Main.tres" id="1_nf413"]
@@ -137,12 +137,14 @@ animations = [{
 }]
 
 [sub_resource type="SystemFont" id="SystemFont_r5smb"]
+subpixel_positioning = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_df7xu"]
 font = SubResource("SystemFont_r5smb")
 font_size = 64
 
 [sub_resource type="SystemFont" id="SystemFont_fhrf3"]
+subpixel_positioning = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_n2cst"]
 font = SubResource("SystemFont_fhrf3")
@@ -153,19 +155,15 @@ atlas = ExtResource("2_1kun4")
 region = Rect2(0, 64, 64, 64)
 
 [sub_resource type="SystemFont" id="SystemFont_15p4j"]
+subpixel_positioning = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_2ktr5"]
 font = SubResource("SystemFont_15p4j")
 font_size = 24
 font_color = Color(0, 0, 0, 1)
 
-[sub_resource type="SystemFont" id="SystemFont_4xyf1"]
-
-[sub_resource type="Theme" id="Theme_hiay6"]
-default_font = SubResource("SystemFont_4xyf1")
-default_font_size = 48
-
 [sub_resource type="SystemFont" id="SystemFont_syvxg"]
+subpixel_positioning = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_rplui"]
 font = SubResource("SystemFont_syvxg")
@@ -176,6 +174,7 @@ font_color = Color(1, 0.552941, 0.666667, 1)
 bg_color = Color(0.133333, 0.133333, 0.133333, 1)
 
 [sub_resource type="SystemFont" id="SystemFont_mqiqh"]
+subpixel_positioning = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_t6dmh"]
 font = SubResource("SystemFont_mqiqh")
@@ -244,9 +243,8 @@ vertical_alignment = 1
 
 [node name="Submit" type="Button" parent="UI/Game/Control"]
 layout_mode = 2
-size_flags_horizontal = 6
-theme = SubResource("Theme_hiay6")
-text = "SUBMIT"
+size_flags_horizontal = 3
+text = " SUBMIT "
 
 [node name="RoundTimer" type="Label" parent="UI/Game/Control"]
 layout_mode = 2
