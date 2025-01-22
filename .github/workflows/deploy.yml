@@ -1,0 +1,46 @@
+name: Deploy Godot HTML Game
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Set up Godot
+      - name: Download Godot Engine
+        uses: firebelley/setup-godot@v1
+        with:
+          godot-version: 4.0.2 # Adjust for your version
+
+      # 3. Export the Godot project to HTML
+      - name: Export HTML Game
+        run: godot --export "HTML5" ./exported/game.html
+        env:
+          DISPLAY: :99.0 # Required for Godot export in headless environments
+
+      # 4. Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./exported
+          publish_branch: gh-pages
+          destination_dir: pr-${{ github.event.pull_request.number }}
+          keep_files: true
+
+      # 5. Comment on PR with the preview link
+      - name: Comment on PR
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          header: '🚀 Preview Available'
+          message: |
+            Your game preview is live: [https://<username>.github.io/<repo-name>/pr-${{ github.event.pull_request.number }}](https://<username>.github.io/<repo-name>/pr-${{ github.event.pull_request.number }})
