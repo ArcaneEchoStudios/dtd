@@ -35,10 +35,10 @@ jobs:
           keep_files: true
 
       # 4. Comment on PR with the preview link
-      - name: Comment on PR
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          header: '🚀 Preview Available'
-          message: |
-            Your game preview is live: [https://<username>.github.io/<repo-name>/pr-${{ github.event.pull_request.number }}](https://<username>.github.io/<repo-name>/pr-${{ github.event.pull_request.number }})
+    #   - name: Comment on PR
+    #     uses: marocchino/sticky-pull-request-comment@v2
+    #     with:
+    #       token: ${{ secrets.GITHUB_TOKEN }}
+    #       header: '🚀 Preview Available'
+    #       message: |
+    #         Your game preview is live: [https://<username>.github.io/<repo-name>/pr-${{ github.event.pull_request.number }}](https://<username>.github.io/<repo-name>/pr-${{ github.event.pull_request.number }})
