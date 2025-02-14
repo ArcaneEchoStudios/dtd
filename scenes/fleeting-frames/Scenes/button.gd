@@ -1,9 +1,9 @@
 extends Button
 
-const ButtonIcons: Texture2D = preload("res://scenes/fleeting-frames/Assets/Fruit.png")
-const SPRITE_DIM: int = 64
+@export var ButtonIcons: Texture2D = preload("res://scenes/fleeting-frames/Assets/Fruit.png")
+@export var sprite_dim: int = 64
 
-var fruit_name: String
+var button_name: String
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -13,10 +13,11 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
     pass
 
-func configure(loc: Vector2i, fruit: String) -> void:
+func configure(loc: Vector2i, new_name: String) -> void:
     var region_texture: AtlasTexture = AtlasTexture.new()
+
     region_texture.atlas = ButtonIcons
-    region_texture.region = Rect2(loc * SPRITE_DIM, Vector2(SPRITE_DIM, SPRITE_DIM))
+    region_texture.region = Rect2(loc * sprite_dim, Vector2(sprite_dim, sprite_dim))
 
     icon = region_texture
-    fruit_name = fruit
+    button_name = new_name

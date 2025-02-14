@@ -123,7 +123,7 @@ func _process(delta: float) -> void:
 func _on_fruit_button_pressed(button: Button) -> void:
     var success: bool = false
 
-    if button.fruit_name == target_fruit:
+    if button.button_name == target_fruit:
         success = true
 
     var animated_sprite = AnimatedSprite2D.new()
@@ -215,7 +215,7 @@ func update_score(success: bool) -> void:
 func _on_submit_pressed() -> void:
     var target_count: int = 0
     for button in button_container.get_children():
-        if button.fruit_name == target_fruit:
+        if button.button_name == target_fruit:
             target_count += 1
 
     if target_count == round_score:

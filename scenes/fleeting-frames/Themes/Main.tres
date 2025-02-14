@@ -1,31 +1,10 @@
-[gd_resource type="Theme" load_steps=7 format=3 uid="uid://ci38f8qh1gopp"]
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://ci38f8qh1gopp"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hla18"]
-bg_color = Color(0.403922, 0.560784, 0.529412, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.792157, 0.807843, 0.701961, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_25s7i"]
-bg_color = Color(0.247059, 0.411765, 0.403922, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_awmc6"]
-bg_color = Color(0.164706, 0.282353, 0.313726, 1)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d0atf"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rjbow"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i6tnj"]
-bg_color = Color(0.0470588, 0.0509804, 0.0705882, 1)
-
-[sub_resource type="SystemFont" id="SystemFont_du3no"]
+bg_color = Color(0.932639, 0.365579, 0.623101, 1)
 
 [resource]
-default_font = SubResource("SystemFont_du3no")
-default_font_size = 32
-Button/styles/hover = SubResource("StyleBoxFlat_hla18")
-Button/styles/normal = SubResource("StyleBoxFlat_25s7i")
-Button/styles/pressed = SubResource("StyleBoxFlat_awmc6")
-Label/styles/normal = SubResource("StyleBoxEmpty_d0atf")
+Button/styles/normal = SubResource("StyleBoxFlat_rjbow")
 Panel/styles/panel = SubResource("StyleBoxFlat_i6tnj")

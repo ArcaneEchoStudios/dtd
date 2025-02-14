@@ -136,48 +136,49 @@ animations = [{
 "speed": 12.0
 }]
 
-[sub_resource type="SystemFont" id="SystemFont_r5smb"]
-subpixel_positioning = 0
+[sub_resource type="SystemFont" id="SystemFont_jyppg"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_df7xu"]
-font = SubResource("SystemFont_r5smb")
+font = SubResource("SystemFont_jyppg")
 font_size = 64
 
-[sub_resource type="SystemFont" id="SystemFont_fhrf3"]
-subpixel_positioning = 0
+[sub_resource type="SystemFont" id="SystemFont_4nt4l"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_n2cst"]
-font = SubResource("SystemFont_fhrf3")
+font = SubResource("SystemFont_4nt4l")
 font_size = 64
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tk8g8"]
 atlas = ExtResource("2_1kun4")
 region = Rect2(0, 64, 64, 64)
 
-[sub_resource type="SystemFont" id="SystemFont_15p4j"]
-subpixel_positioning = 0
+[sub_resource type="SystemFont" id="SystemFont_w5jbm"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_2ktr5"]
-font = SubResource("SystemFont_15p4j")
+font = SubResource("SystemFont_w5jbm")
 font_size = 24
 font_color = Color(0, 0, 0, 1)
 
-[sub_resource type="SystemFont" id="SystemFont_syvxg"]
-subpixel_positioning = 0
+[sub_resource type="SystemFont" id="SystemFont_tc6wh"]
+
+[sub_resource type="Theme" id="Theme_hiay6"]
+default_font = SubResource("SystemFont_tc6wh")
+default_font_size = 48
+
+[sub_resource type="SystemFont" id="SystemFont_gtsos"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rplui"]
-font = SubResource("SystemFont_syvxg")
+font = SubResource("SystemFont_gtsos")
 font_size = 48
 font_color = Color(1, 0.552941, 0.666667, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6e3ki"]
 bg_color = Color(0.133333, 0.133333, 0.133333, 1)
 
-[sub_resource type="SystemFont" id="SystemFont_mqiqh"]
-subpixel_positioning = 0
+[sub_resource type="SystemFont" id="SystemFont_q7x6i"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_t6dmh"]
-font = SubResource("SystemFont_mqiqh")
+font = SubResource("SystemFont_q7x6i")
 font_size = 64
 font_color = Color(1, 0.101961, 0.133333, 1)
 
